@@ -31,3 +31,12 @@ class CellStation(Document):
 
 	def on_trash(self):
 		frappe.delete_doc("Cloud Project Site", self.site, ignore_permissions=True)
+
+
+	def on_update(self):
+		site = frappe.get_doc("Cloud Project Site", self.site)
+		site.set("address", self.address)
+		site.set("site_name", self.station_name)
+		site.set("longitude", self.longitude)
+		site.set("latitude", self.latitude)
+		site.save()
