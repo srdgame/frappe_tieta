@@ -39,4 +39,4 @@ class CellStation(Document):
 		site.set("site_name", self.station_name)
 		site.set("longitude", self.longitude)
 		site.set("latitude", self.latitude)
-		site.save()
+		site.save(ignore_permissions=True)
