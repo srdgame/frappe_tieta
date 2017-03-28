@@ -34,6 +34,8 @@ class CellStation(Document):
 		self.save()
 
 	def on_trash(self):
+		self.set("site", None)
+		self.save()
 		frappe.delete_doc("Cloud Project Site", self.site, ignore_permissions=True)
 
 	def on_update(self):
