@@ -19,7 +19,7 @@ parent_type = {
 
 
 def query_region(doctype, txt, searchfield, start, page_len, filters):
-	typ = parent_type(filters["type"])
+	typ = parent_type[filters["type"]] or ""
 	return frappe.db.sql("""select name, description from `tabRegion`
 		where type = %s
 		and %s like %s order by name limit %s, %s""" %
