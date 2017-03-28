@@ -2,6 +2,14 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Region', {
+	setup: function(frm) {
+		frm.fields_dict['region_parent'].get_query  = function(){
+			return {
+				query:"tieta.tieta.doctype.region.region.query_region",
+				filters: {"type": frm.doc.type}
+			};
+		};
+	},
 	refresh: function(frm) {
 
 	}
