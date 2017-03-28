@@ -36,6 +36,8 @@ def query_province(doctype, txt, searchfield, start, page_len, filters):
 
 
 def query_city(doctype, txt, searchfield, start, page_len, filters):
+	if not filters["province"]:
+		return ""
 	return frappe.db.sql("""select name, description from `tabRegion`
 		where type = 'City' and region_parent = %s
 		and %s like %s order by name limit %s, %s""" %
@@ -44,6 +46,8 @@ def query_city(doctype, txt, searchfield, start, page_len, filters):
 
 
 def query_county(doctype, txt, searchfield, start, page_len, filters):
+	if not filters["city"]:
+		return ""
 	return frappe.db.sql("""select name, description from `tabRegion`
 		where type = 'County' and region_parent = %s
 		and %s like %s order by name limit %s, %s""" %
@@ -52,6 +56,8 @@ def query_county(doctype, txt, searchfield, start, page_len, filters):
 
 
 def query_town(doctype, txt, searchfield, start, page_len, filters):
+	if not filters["county"]:
+		return ""
 	return frappe.db.sql("""select name, description from `tabRegion`
 		where type = 'Town' and region_parent = %s
 		and %s like %s order by name limit %s, %s""" %
