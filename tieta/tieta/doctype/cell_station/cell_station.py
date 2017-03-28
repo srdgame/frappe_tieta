@@ -10,6 +10,7 @@ class CellStation(Document):
 	def validate(self):
 		self.province_name = frappe.get_value("Region", self.province, "region_name")
 		self.city_name = frappe.get_value("Region", self.city, "region_name")
+		self.county_name = frappe.get_value("Region", self.county, "region_name")
 		self.town_name = frappe.get_value("Region", self.town, "region_name")
 
 	def __formate_address(self):
