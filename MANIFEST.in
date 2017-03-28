@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include tieta *.css
+recursive-include tieta *.csv
+recursive-include tieta *.html
+recursive-include tieta *.ico
+recursive-include tieta *.js
+recursive-include tieta *.json
+recursive-include tieta *.md
+recursive-include tieta *.png
+recursive-include tieta *.py
+recursive-include tieta *.svg
+recursive-include tieta *.txt
+recursive-exclude tieta *.pyc
