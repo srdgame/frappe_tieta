@@ -37,6 +37,7 @@ class CellStation(Document):
 
 	def on_update(self):
 		site = frappe.get_doc("Cloud Project Site", self.site)
+		site.set("project", self.project)
 		site.set("address", self.__formate_address())
 		site.set("site_name", self.station_name)
 		site.set("longitude", self.longitude)
