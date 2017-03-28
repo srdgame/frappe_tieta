@@ -23,7 +23,7 @@ frappe.ui.form.on('Cell Station', {
 		frm.fields_dict['town'].get_query  = function(){
 			return {
 				query:"tieta.tieta.doctype.region.region.query_town",
-				filters: {"county": frm.doc.city}
+				filters: {"county": frm.doc.county}
 			};
 		};
 	},
