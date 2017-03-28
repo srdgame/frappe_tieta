@@ -30,5 +30,5 @@ def query_town(doctype, txt, searchfield, start, page_len, filters):
 	return frappe.db.sql("""select name, description from `tabRegion`
 		where type = 'Town' and region_parent = %s
 		and %s like %s order by name limit %s, %s""" %
-		(searchfield, "%s", "%s", "%s"),
+		("%s", searchfield, "%s", "%s", "%s"),
 		(filters["city"], "%%%s%%" % txt, start, page_len), as_list=1)
