@@ -13,7 +13,7 @@ class CellStation(Document):
 		self.town_name = frappe.get_value("Region", self.town, "region_name")
 
 	def __formate_address(self):
-		return self.province_name + self.city_name + self.town_name + self.address
+		return self.province_name + " " + self.city_name + " " + self.town_name + " " + self.address
 
 	def after_insert(self):
 		data = {
