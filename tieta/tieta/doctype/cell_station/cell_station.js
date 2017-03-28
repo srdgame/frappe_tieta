@@ -14,10 +14,16 @@ frappe.ui.form.on('Cell Station', {
 				filters: {"province": frm.doc.province}
 			};
 		};
+		frm.fields_dict['county'].get_query  = function(){
+			return {
+				query:"tieta.tieta.doctype.region.region.query_county",
+				filters: {"city": frm.doc.city}
+			};
+		};
 		frm.fields_dict['town'].get_query  = function(){
 			return {
 				query:"tieta.tieta.doctype.region.region.query_town",
-				filters: {"city": frm.doc.city}
+				filters: {"county": frm.doc.city}
 			};
 		};
 	},
