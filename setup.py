@@ -15,7 +15,7 @@ requirements = parse_requirements("requirements.txt", session="")
 setup(
 	name='tieta',
 	version=version,
-	description='Tie Ta',
+	description='TieTa',
 	author='Dirk Chang',
 	author_email='dirk.chang@symid.com',
 	packages=find_packages(),

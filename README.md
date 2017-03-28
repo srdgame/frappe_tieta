@@ -1,6 +1,6 @@
-## Tie Ta
+## TieTa
 
-Tie Ta
+TieTa
 
 #### License
 

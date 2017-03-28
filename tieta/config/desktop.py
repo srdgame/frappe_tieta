@@ -5,10 +5,10 @@ from frappe import _
 def get_data():
 	return [
 		{
-			"module_name": "Tie Ta",
+			"module_name": "TieTa",
 			"color": "#11AAEE",
 			"icon": "octicon octicon-flame",
 			"type": "module",
-			"label": _("Tie Ta")
+			"label": _("TieTa")
 		}
 	]
