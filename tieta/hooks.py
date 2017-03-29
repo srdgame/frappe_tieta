@@ -122,4 +122,5 @@ app_license = "MIT"
 standard_queries = {
 	"Stock Item Attribute": "tieta.stock.doctype.stock_item_attribute.stock_item_attribute.stock_item_attribute_query",
 	"Stock Batch No": "tieta.stock.doctype.stock_batch_no.stock_batch_no.stock_batch_no_query",
+	"Stock Serial No": "tieta.stock.doctype.stock_serial_no.stock_serial_no.stock_serial_no_query",
 }
