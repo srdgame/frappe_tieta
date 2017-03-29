@@ -13,13 +13,13 @@ frappe.ui.form.on('Stock Serial No', {
 		};
 	},
 	refresh: function(frm) {
-		if (ss_item_code != frm.doc.item_code) {
-			ss_item_code = frm.doc.item_code;
+		if (this.ss_item_code != frm.doc.item_code) {
+			this.ss_item_code = frm.doc.item_code;
 			frappe.call({
 				method: 'tieta.stock.doctype.stock_item_attribute.stock_item_attribute.stock_item_attribute_query',
 				args: {
 					"type": "serial",
-					"item_code": ss_item_code
+					"item_code": this.ss_item_code
 				},
 				callback: function (r) {
 					frm.set_value("attributes" ,"");
