@@ -24,8 +24,11 @@ frappe.ui.form.on("Stock Serial No", "item_code", function(frm) {
 		method:'frappe.desk.search.search_link',
 		args: {
 			"doctype": "Stock Item Attribute",
-			"type": "batch",
-			"item_code": frm.doc.item_code
+			"txt": "",
+			"filters": {
+				"type": "batch",
+				"item_code": frm.doc.item_code
+			}
 		},
 		callback: function (r) {
 			frm.set_value("attributes", "");
