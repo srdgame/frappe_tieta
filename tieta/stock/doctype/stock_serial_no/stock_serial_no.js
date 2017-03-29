@@ -18,17 +18,20 @@ frappe.ui.form.on('Stock Serial No', {
 });
 
 frappe.ui.form.on("Stock Serial No", "item_code", function(frm) {
+	args = {
+		"doctype": "Stock Item Attribute",
+		"txt": "",
+		"filters": {
+			"type": "serial",
+			"item_code": frm.doc.item_code
+		}
+	};
+	alert(args);
+
 	frappe.call({
 		type: "GET",
 		method:'frappe.desk.search.search_link',
-		args: {
-			"doctype": "Stock Item Attribute",
-			"txt": "",
-			"filters": {
-				"type": "serial",
-				"item_code": frm.doc.item_code
-			}
-		},
+		args: args,
 		callback: function (r) {
 			frm.set_value("attributes" ,"");
 			if (r.message) {
