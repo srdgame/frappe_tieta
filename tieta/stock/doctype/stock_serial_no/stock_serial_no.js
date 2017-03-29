@@ -30,6 +30,7 @@ frappe.ui.form.on("Stock Serial No", "item_code", function(frm) {
 			}
 		},
 		callback: function (r) {
+			alert(r.message);
 			frm.set_value("attributes" ,"");
 			if (r.message) {
 				$.each(r.message, function(i, d) {
