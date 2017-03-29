@@ -119,3 +119,6 @@ app_license = "MIT"
 # 	"frappe.desk.doctype.event.event.get_events": "tieta.event.get_events"
 # }
 
+standard_queries = {
+	"Stock Item Attribute": "tieta.stock.doctype.stock_item_attribute.stock_item_attribute.stock_item_attribute_query"
+}
