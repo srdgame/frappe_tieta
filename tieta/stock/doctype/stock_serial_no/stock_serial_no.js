@@ -30,12 +30,10 @@ frappe.ui.form.on("Stock Serial No", "item_code", function(frm) {
 			}
 		},
 		callback: function (r) {
-			alert(r.message);
 			frm.set_value("attributes" ,"");
-			if (r.message) {
-				$.each(r.message, function(i, d) {
-					alert( d.attribute);
-					var row = frappe.model.add_child(cur_frm.doc, "Stock Batch NoAttribute", "attributes");
+			if (r.results) {
+				$.each(r.results, function(i, d) {
+					var row = frappe.model.add_child(cur_frm.doc, "Stock Serial NoAttribute", "attributes");
 					row.attribute = d.attribute;
 				});
 			}

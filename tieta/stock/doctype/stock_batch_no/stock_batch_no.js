@@ -32,8 +32,8 @@ frappe.ui.form.on("Stock Serial No", "item_code", function(frm) {
 		},
 		callback: function (r) {
 			frm.set_value("attributes", "");
-			if (r.message) {
-				$.each(r.message, function (i, d) {
+			if (r.results) {
+				$.each(r.results, function (i, d) {
 					var row = frappe.model.add_child(cur_frm.doc, "Stock Batch NoAttribute", "attributes");
 					row.attribute = d.attribute;
 				});
