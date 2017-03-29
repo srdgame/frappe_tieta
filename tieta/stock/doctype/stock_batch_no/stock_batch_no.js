@@ -18,7 +18,7 @@ frappe.ui.form.on('Stock Batch No', {
 });
 
 
-frappe.ui.form.on("Stock Serial No", "item_code", function(frm) {
+frappe.ui.form.on("Stock Batch No", "item_code", function(frm) {
 	frappe.call({
 		type: "GET",
 		method:'frappe.desk.search.search_link',
