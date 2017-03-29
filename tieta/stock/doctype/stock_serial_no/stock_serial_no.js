@@ -37,5 +37,5 @@ frappe.ui.form.on('Stock Serial No', {
 });
 
 frappe.ui.form.on("Stock Serial No", "item_code", function(frm) {
-	alert(frm.doc.item_code);
+	alert("AAAA");
 });
