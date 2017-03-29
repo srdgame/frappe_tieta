@@ -18,7 +18,7 @@ attribute_type_map = {
 
 def stock_item_attribute_query(doctype, txt, searchfield, start, page_len, filters):
 	typ = attribute_type_map[filters["type"]] or ""
-	item_code = filters['item_code'] or ''
+	item_code = filters["item_code"] or ""
 	return frappe.db.sql("""select name, attribute from `tabStock Item Attribute`
 		where parentfield = %s and parent = %s
 		and %s like %s order by name limit %s, %s""" %
