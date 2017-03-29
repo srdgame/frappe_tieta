@@ -17,9 +17,9 @@ attribute_type_map = {
 
 
 def stock_item_attribute_query(doctype, txt, searchfield, start, page_len, filters):
-	if not filters["type"]:
+	if not filters.has_key("type"):
 		return ""
-	if not filters["item_code"]:
+	if not filters.has_key("item_code"):
 		return ""
 
 	typ = attribute_type_map[filters["type"]] or ""
