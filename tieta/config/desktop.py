@@ -10,5 +10,12 @@ def get_data():
 			"icon": "octicon octicon-flame",
 			"type": "module",
 			"label": _("TieTa")
+		},
+		{
+			"module_name": "Stock",
+			"color": "#11AAEE",
+			"icon": "octicon octicon-package",
+			"type": "module",
+			"label": _("Stock")
 		}
 	]
