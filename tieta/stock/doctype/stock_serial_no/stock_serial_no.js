@@ -11,6 +11,13 @@ frappe.ui.form.on('Stock Serial No', {
 				}
 			};
 		};
+		frm.fields_dict['batch_no'].get_query  = function(){
+			return {
+				filters: {
+					"item_code": frm.doc.item_code
+				}
+			};
+		};
 	},
 	refresh: function(frm) {
 
