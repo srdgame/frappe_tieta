@@ -20,8 +20,9 @@ frappe.ui.form.on('Stock Serial No', {
 frappe.ui.form.on("Stock Serial No", "item_code", function(frm) {
 	frappe.call({
 		type: "GET",
-		method: 'tieta.stock.doctype.stock_item_attribute.stock_item_attribute.stock_item_attribute_query',
+		method:'frappe.desk.search.search_link',
 		args: {
+			"doctype": "Stock Item Attribute",
 			"type": "serial",
 			"item_code": frm.doc.item_code
 		},
