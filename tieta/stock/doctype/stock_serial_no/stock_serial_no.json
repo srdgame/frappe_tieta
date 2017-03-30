@@ -133,7 +133,7 @@
    "unique": 0
   }, 
   {
-   "allow_on_submit": 0, 
+   "allow_on_submit": 1, 
    "bold": 0, 
    "collapsible": 0, 
    "columns": 0, 
@@ -261,7 +261,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-30 16:18:01.765028", 
+ "modified": "2017-03-30 17:22:24.349790", 
  "modified_by": "Administrator", 
  "module": "Stock", 
  "name": "Stock Serial No", 
