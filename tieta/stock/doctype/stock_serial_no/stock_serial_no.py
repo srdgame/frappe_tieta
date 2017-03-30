@@ -15,7 +15,7 @@ def stock_serial_no_query(doctype, txt, searchfield, start, page_len, filters):
 		return ""
 
 	item_code = filters["item_code"]
-	return frappe.db.sql("""select name, attribute from `tabStock Serial No`
+	return frappe.db.sql("""select name, warehouse from `tabStock Serial No`
 		where item_code = %s and docstatus = 2
 		and %s like %s order by name limit %s, %s""" %
 		("%s", searchfield, "%s", "%s", "%s"),
