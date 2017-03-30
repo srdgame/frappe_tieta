@@ -6,3 +6,19 @@ frappe.ui.form.on('Stock Entry', {
 
 	}
 });
+
+frappe.ui.form.on("Stock Entry", "warehouse", function(frm) {
+	frappe.call({
+		method: "frappe.client.get_value",
+		args: {
+			doctype: "Stock Warehouse",
+			fieldname: "company",
+			filters: { name: frm.doc.warehouse },
+		},
+		callback: function(r, rt) {
+			if(r.message) {
+				frm.set_value("company", r.message.company);
+			}
+		}
+	});
+});
