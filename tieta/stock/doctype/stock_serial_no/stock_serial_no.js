@@ -18,6 +18,12 @@ frappe.ui.form.on('Stock Serial No', {
 				}
 			};
 		};
+		frm.fields_dict['item_code'].get_query  = function(){
+			return {
+				query:"tieta.stock.doctype.stock_item.stock_item.stock_item_query",
+				filters: {"from": "serial_no"}
+			};
+		};
 	},
 	refresh: function(frm) {
 
