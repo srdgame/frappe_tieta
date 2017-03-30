@@ -19,7 +19,7 @@ def stock_item_query(doctype, txt, searchfield, start, page_len, filters):
 	if filters["from"] == "batch_no":
 		filter = "has_batch_no = 1"
 
-	return frappe.db.sql("""select name, attribute from `tabStock Item`
+	return frappe.db.sql("""select name, item_name from `tabStock Item`
 		where %s
 		and %s like %s order by name limit %s, %s""" %
 		("%s", searchfield, "%s", "%s", "%s"),
