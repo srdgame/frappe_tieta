@@ -16,7 +16,7 @@
   {
    "allow_on_submit": 0, 
    "bold": 0, 
-   "collapsible": 0, 
+   "collapsible": 1, 
    "columns": 0, 
    "fieldname": "items_section", 
    "fieldtype": "Section Break", 
@@ -441,7 +441,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-03-30 16:36:08.303771", 
+ "modified": "2017-03-30 18:15:55.618937", 
  "modified_by": "Administrator", 
  "module": "Stock", 
  "name": "Stock Entry", 
