@@ -2,6 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Stock Entry', {
+	setup: function(frm) {
+		frm.fields_dict['items'].grid.get_field("serial_no").get_query  = function(){
+			return {
+				filters: {
+					"item_code": frm.doc.item
+				}
+			};
+		};
+	},
 	refresh: function(frm) {
 
 	}
