@@ -11,10 +11,14 @@ class StockSerialNo(Document):
 
 
 def stock_serial_no_query(doctype, txt, searchfield, start, page_len, filters):
-	if not filters.has_key("item_code"):
-		return ""
+	if not filters:
+		return frappe.db.sql("""select name, warehouse from `tabStock Serial No`
+			where docstatus = 1
+			and %s like %s order by name limit %s, %s""" %
+			(searchfield, "%s", "%s", "%s"),
+			("%%%s%%" % txt, start, page_len), as_list=1)
 
-	item_code = filters["item_code"]
+	item_code = filters["item_code"] or ''
 	return frappe.db.sql("""select name, warehouse from `tabStock Serial No`
 		where item_code = %s and docstatus = 1
 		and %s like %s order by name limit %s, %s""" %
