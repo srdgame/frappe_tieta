@@ -47,9 +47,8 @@ frappe.ui.form.on('Cell StationDevice', {
 			},
 			callback: function(r, rt) {
 				if(r.message) {
-					d.device_type_value = r.message.type_doc;
-					d.device_name = d.device_type;
-					refresh_field("devices");
+					frappe.model.set_value(cdt, cdn, "device_type_value", r.message.type_doc);
+					frappe.model.set_value(cdt, cdn, "device_name", d.device_type);
 				}
 			}
 		});
