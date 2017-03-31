@@ -26,6 +26,8 @@ frappe.ui.form.on('Cell Station', {
 				filters: {"county": frm.doc.county}
 			};
 		};
+	},
+	refresh: function(frm) {
 		frappe.call({
 			type: "GET",
 			method:'frappe.desk.search.search_link',
@@ -49,9 +51,6 @@ frappe.ui.form.on('Cell Station', {
 				refresh_field("devices");
 			}
 		});
-	},
-	refresh: function(frm) {
-
 	}
 });
 
