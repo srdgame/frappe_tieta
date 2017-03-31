@@ -26,8 +26,16 @@ frappe.ui.form.on('Cell Station', {
 				filters: {"county": frm.doc.county}
 			};
 		};
-		var devices = frm.fields_dict['devices'].grid;
-		devices.add_custom_button(__("Load All Device Types"), function() {
+	},
+	refresh: function (frm) {
+
+	},
+});
+
+frappe.ui.form.on('Cell StationDevice', {
+	setup: function(frm) {
+		//var devices = frm.fields_dict['devices'].grid;
+		frm.add_custom_button(__("Load All Device Types"), function() {
 			frappe.call({
 				type: "GET",
 				method: 'frappe.desk.search.search_link',
@@ -53,12 +61,6 @@ frappe.ui.form.on('Cell Station', {
 			});
 		});
 	},
-	refresh: function (frm) {
-
-	},
-});
-
-frappe.ui.form.on('Cell StationDevice', {
 	device_type: function(doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.call({
