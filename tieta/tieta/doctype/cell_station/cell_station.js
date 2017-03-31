@@ -26,6 +26,12 @@ frappe.ui.form.on('Cell Station', {
 				filters: {"county": frm.doc.county}
 			};
 		};
+		var grid = frm.get_field("items").grid;
+		if(!grid.add_items_button) {
+			grid.add_items_button = grid.add_custom_button(__('Add Items'), function() {
+
+			});
+		}
 	},
 	refresh: function (frm) {
 
@@ -33,9 +39,6 @@ frappe.ui.form.on('Cell Station', {
 });
 
 frappe.ui.form.on('Cell StationDevice', {
-	refresh: function(frm) {
-		frm.add_custom_button(__("Add List Type"), function(){});
-	},
 	device_type: function(doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.call({
