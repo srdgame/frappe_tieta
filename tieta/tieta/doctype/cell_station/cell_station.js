@@ -26,7 +26,7 @@ frappe.ui.form.on('Cell Station', {
 				filters: {"county": frm.doc.county}
 			};
 		};
-		var grid = frm.get_field("items").grid;
+		var grid = frm.get_field("devices").grid;
 		if(!grid.add_items_button) {
 			grid.add_items_button = grid.add_custom_button(__('Add Items'), function() {
 
