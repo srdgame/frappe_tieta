@@ -28,27 +28,24 @@ frappe.ui.form.on('Cell Station', {
 		};
 	},
 	refresh: function(frm) {
+
+	},
+	items: function(doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
 		frappe.call({
-			type: "GET",
-			method:'frappe.desk.search.search_link',
+			method: "frappe.client.get_value",
 			args: {
-				"doctype": "Cell Station Device Type",
-				"txt": "",
-				"query": "tieta.tieta.doctype.cell_station_device_type.cell_station_device_type.query_types",
-				"filters": {
-					"docstatus": 1
-				}
+				doctype: "Cell Station Device Type",
+				fieldname: "type_doc",
+				filters: {
+					name: d.device_type,
+					docstatus: 1,
+				},
 			},
-			callback: function (r) {
-				frm.set_value("devices" ,"");
-				if (r.results) {
-					$.each(r.results, function(i, d) {
-						var row = frappe.model.add_child(cur_frm.doc, "Cell StationDevice", "devices");
-						row.device_type = d.value;
-						row.device_type_value = d.description;
-					});
+			callback: function(r, rt) {
+				if(r.message) {
+					d.device_type_value = r.message.type_doc;
 				}
-				refresh_field("devices");
 			}
 		});
 	}
