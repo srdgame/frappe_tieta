@@ -35,7 +35,6 @@ frappe.ui.form.on('Cell Station', {
 frappe.ui.form.on('Cell StationDevice', {
 	device_type: function(doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
-		d.device_name = d.device_type;
 		frappe.call({
 			method: "frappe.client.get_value",
 			args: {
@@ -49,6 +48,8 @@ frappe.ui.form.on('Cell StationDevice', {
 			callback: function(r, rt) {
 				if(r.message) {
 					d.device_type_value = r.message.type_doc;
+					d.device_name = d.device_type;
+					refresh_field("devices");
 				}
 			}
 		});
