@@ -26,6 +26,32 @@ frappe.ui.form.on('Cell Station', {
 				filters: {"county": frm.doc.county}
 			};
 		};
+		var devices = frm.fields_dict['devices'].grid;
+		devices.add_custom_button(__("Load All Device Types"), function() {
+			frappe.call({
+				type: "GET",
+				method: 'frappe.desk.search.search_link',
+				args: {
+					"doctype": "Cell Station Device Type",
+					"txt": "",
+					"query": "tieta.tieta.doctype.cell_station_device_type.cell_station_device_type.query_types",
+					"filters": {
+						"docstatus": 1
+					}
+				},
+				callback: function (r) {
+					frm.set_value("devices", "");
+					if (r.results) {
+						$.each(r.results, function (i, d) {
+							var row = frappe.model.add_child(cur_frm.doc, "Cell StationDevice", "devices");
+							row.device_type = d.value;
+							row.device_type_value = d.description;
+						});
+					}
+					refresh_field("devices");
+				}
+			});
+		});
 	},
 	refresh: function (frm) {
 
