@@ -11,7 +11,7 @@ class CellStationDeviceType(Document):
 
 
 def query_types(doctype, txt, searchfield, start, page_len, filters):
-	return frappe.db.sql("""select name, type_doc from `tabRegion`
+	return frappe.db.sql("""select name, type_doc from `tabCell Station Device Type`
 		where docstatus = 1
 		and %s like %s order by name limit %s, %s""" %
 		(searchfield, "%s", "%s", "%s"),
