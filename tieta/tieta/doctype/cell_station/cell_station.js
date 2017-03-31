@@ -28,6 +28,8 @@ frappe.ui.form.on('Cell Station', {
 		};
 	},
 	refresh: function (frm) {
+	},
+	onload_post_render: function() {
 		var grid = frm.fields_dict["devices"].grid;
 		grid.add_custom_button(__('Add Device Items'), function() {
 			frappe.call({
