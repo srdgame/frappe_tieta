@@ -32,7 +32,7 @@ frappe.ui.form.on('Cell Station', {
 	},
 });
 
-frappe.ui.form.on('Devices', {
+frappe.ui.form.on('Cell StationDevice', {
 	device_type: function(doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.call({
