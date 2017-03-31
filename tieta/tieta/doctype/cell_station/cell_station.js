@@ -34,7 +34,7 @@ frappe.ui.form.on('Cell Station', {
 			args: {
 				"doctype": "Cell Station Device Type",
 				"txt": "",
-				"query": "tieta.tieta.doctype.cell_station_device_type.cell_station_device_type.query_types"
+				"query": "tieta.tieta.doctype.cell_station_device_type.cell_station_device_type.query_types",
 				"filters": {
 					"docstatus": 1
 				}
