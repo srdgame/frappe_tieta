@@ -57,6 +57,8 @@ frappe.ui.form.on('Cell Station', {
 				}
 			});
 		});
+		frm.custom_buttons[__('Add Device Items')].removeClass("btn-default");
+		frm.custom_buttons[__('Add Device Items')].addClass("btn-warning");
 	},
 });
 
