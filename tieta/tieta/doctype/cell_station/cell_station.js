@@ -30,7 +30,7 @@ frappe.ui.form.on('Cell Station', {
 	refresh: function(frm) {
 
 	},
-	items: function(doc, cdt, cdn) {
+	devices: function(doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.call({
 			method: "frappe.client.get_value",
