@@ -28,7 +28,7 @@ frappe.ui.form.on('Cell Station', {
 		};
 	},
 	refresh: function (frm) {
-		var grid = this.frm.get_field("items").grid;
+		var grid = this.frm.get_field("devices").grid;
 		grid.add_items_button = grid.add_custom_button(__('Add Device Items'), function() {
 			frappe.call({
 				type: "GET",
