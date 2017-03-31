@@ -49,6 +49,7 @@ frappe.ui.form.on('Cell Station', {
 						$.each(r.results, function (i, d) {
 							var row = frappe.model.add_child(cur_frm.doc, "Cell StationDevice", "devices");
 							row.device_type = d.value;
+							row.device_name = d.value;
 							row.device_type_value = d.description;
 						});
 					}
@@ -74,8 +75,8 @@ frappe.ui.form.on('Cell StationDevice', {
 			},
 			callback: function(r, rt) {
 				if(r.message) {
-					frappe.model.set_value(cdt, cdn, "device_type_value", r.message.type_doc);
 					frappe.model.set_value(cdt, cdn, "device_name", d.device_type);
+					frappe.model.set_value(cdt, cdn, "device_type_value", r.message.type_doc);
 				}
 			}
 		});
