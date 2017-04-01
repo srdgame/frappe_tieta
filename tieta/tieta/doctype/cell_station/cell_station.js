@@ -3,29 +3,34 @@
 
 frappe.ui.form.on('Cell Station', {
 	setup: function (frm) {
-		frm.fields_dict['province'].get_query = function () {
+		frm.fields_dict['address'].grid.get_field("province").get_query = function (doc, cdt, cdn) {
 			return {
-				query: "cloud.cloud.doctype.region.region.query_province",
+				query:"cloud.cloud.doctype.region.region.query_child_region",
+				filters: {"type": "Province"}
 			};
 		};
-		frm.fields_dict['city'].get_query = function () {
+		frm.fields_dict['address'].grid.get_field("city").get_query = function (doc, cdt, cdn) {
+			var d = locals[cdt][cdn];
 			return {
-				query: "cloud.cloud.doctype.region.region.query_city",
-				filters: {"province": frm.doc.province}
+				query:"cloud.cloud.doctype.region.region.query_child_region",
+				filters: {"type": "City", "parent": d.province}
 			};
 		};
-		frm.fields_dict['county'].get_query = function () {
+		frm.fields_dict['address'].grid.get_field("county").get_query = function (doc, cdt, cdn) {
+			var d = locals[cdt][cdn];
 			return {
-				query: "cloud.cloud.doctype.region.region.query_county",
-				filters: {"city": frm.doc.city}
+				query:"cloud.cloud.doctype.region.region.query_child_region",
+				filters: {"type": "County", "parent": d.city}
 			};
 		};
-		frm.fields_dict['town'].get_query = function () {
+		frm.fields_dict['address'].grid.get_field("town").get_query = function (doc, cdt, cdn) {
+			var d = locals[cdt][cdn];
 			return {
-				query: "cloud.cloud.doctype.region.region.query_town",
-				filters: {"county": frm.doc.county}
+				query:"cloud.cloud.doctype.region.region.query_child_region",
+				filters: {"type": "Town", "parent": d.county}
 			};
 		};
+		frm.fields_dict['address'].grid.cannot_add_rows = true;
 	},
 	refresh: function (frm) {
 	},
@@ -60,6 +65,17 @@ frappe.ui.form.on('Cell Station', {
 		grid.custom_buttons[__('Add Device Items')].removeClass("btn-default");
 		grid.custom_buttons[__('Add Device Items')].addClass("btn-warning");
 	},
+	update_address: function(frm, row) {
+		frappe.call({
+			method: "cloud.cloud.doctype.region_address.region_address.get_address_text",
+			args: row,
+			callback: function (r, rt) {
+				if (r.message) {
+					frm.set_value("address_text", r.message)
+				}
+			}
+		});
+	}
 });
 
 frappe.ui.form.on('Cell StationDevice', {
@@ -72,8 +88,8 @@ frappe.ui.form.on('Cell StationDevice', {
 				fieldname: "type_doc",
 				filters: {
 					name: d.device_type,
-					docstatus: 1,
-				},
+					docstatus: 1
+				}
 			},
 			callback: function(r, rt) {
 				if(r.message) {
@@ -92,34 +108,25 @@ frappe.ui.form.on('Region Address', {
 		frappe.model.set_value(cdt, cdn, "city", "");
 		frappe.model.set_value(cdt, cdn, "county", "");
 		frappe.model.set_value(cdt, cdn, "town", "");
-		d.city.get_query = function () {
-			return {
-				query:"cloud.cloud.doctype.region.region.query_child_region",
-				filters: {"type": "City", "parent": d.province}
-			};
-		};
+		cur_frm.events.update_address(cur_frm, d);
 	},
 	city: function (doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.model.set_value(cdt, cdn, "county", "");
 		frappe.model.set_value(cdt, cdn, "town", "");
-		d.county.get_query = function () {
-			return {
-				query:"cloud.cloud.doctype.region.region.query_child_region",
-				filters: {"type": "County", "parent": d.city}
-			};
-		};
+		cur_frm.events.update_address(cur_frm, d);
 	},
 	county: function (doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.model.set_value(cdt, cdn, "town", "");
-		d.town.get_query = function () {
-			return {
-				query:"cloud.cloud.doctype.region.region.query_child_region",
-				filters: {"type": "Town", "parent": d.county}
-			};
-		};
+		cur_frm.events.update_address(cur_frm, d);
 	},
 	town: function (doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		cur_frm.events.update_address(cur_frm, d);
+	},
+	address: function (doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		cur_frm.events.update_address(cur_frm, d);
 	}
 });
