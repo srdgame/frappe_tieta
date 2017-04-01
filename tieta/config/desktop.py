@@ -6,14 +6,14 @@ def get_data():
 	return [
 		{
 			"module_name": "TieTa",
-			"color": "#11AAEE",
-			"icon": "octicon octicon-flame",
+			"color": "#808000",
+			"icon": "fa fa-podcast",
 			"type": "module",
 			"label": _("TieTa")
 		},
 		{
 			"module_name": "Stock",
-			"color": "#11AAEE",
+			"color": "#808000",
 			"icon": "octicon octicon-package",
 			"type": "module",
 			"label": _("Stock")
