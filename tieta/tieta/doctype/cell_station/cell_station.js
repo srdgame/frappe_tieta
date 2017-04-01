@@ -5,24 +5,24 @@ frappe.ui.form.on('Cell Station', {
 	setup: function (frm) {
 		frm.fields_dict['province'].get_query = function () {
 			return {
-				query: "tieta.tieta.doctype.region.region.query_province",
+				query: "cloud.cloud.doctype.region.region.query_province",
 			};
 		};
 		frm.fields_dict['city'].get_query = function () {
 			return {
-				query: "tieta.tieta.doctype.region.region.query_city",
+				query: "cloud.cloud.doctype.region.region.query_city",
 				filters: {"province": frm.doc.province}
 			};
 		};
 		frm.fields_dict['county'].get_query = function () {
 			return {
-				query: "tieta.tieta.doctype.region.region.query_county",
+				query: "cloud.cloud.doctype.region.region.query_county",
 				filters: {"city": frm.doc.city}
 			};
 		};
 		frm.fields_dict['town'].get_query = function () {
 			return {
-				query: "tieta.tieta.doctype.region.region.query_town",
+				query: "cloud.cloud.doctype.region.region.query_town",
 				filters: {"county": frm.doc.county}
 			};
 		};
@@ -86,3 +86,40 @@ frappe.ui.form.on('Cell StationDevice', {
 });
 
 
+frappe.ui.form.on('Region Address', {
+	province: function (doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		frappe.model.set_value(cdt, cdn, "city", "");
+		frappe.model.set_value(cdt, cdn, "county", "");
+		frappe.model.set_value(cdt, cdn, "town", "");
+		d.city.get_query = function () {
+			return {
+				query:"cloud.cloud.doctype.region.region.query_child_region",
+				filters: {"type": "City", "parent": d.province}
+			};
+		};
+	},
+	city: function (doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		frappe.model.set_value(cdt, cdn, "county", "");
+		frappe.model.set_value(cdt, cdn, "town", "");
+		d.county.get_query = function () {
+			return {
+				query:"cloud.cloud.doctype.region.region.query_child_region",
+				filters: {"type": "County", "parent": d.city}
+			};
+		};
+	},
+	county: function (doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		frappe.model.set_value(cdt, cdn, "town", "");
+		d.town.get_query = function () {
+			return {
+				query:"cloud.cloud.doctype.region.region.query_child_region",
+				filters: {"type": "Town", "parent": d.county}
+			};
+		};
+	},
+	town: function (doc, cdt, cdn) {
+	}
+});
