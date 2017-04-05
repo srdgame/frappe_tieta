@@ -7,4 +7,12 @@ import frappe
 from frappe.model.document import Document
 
 class StockDeliveryOrder(Document):
-	pass
+	def on_cancel(self):
+		if self.order_source_type == 'Tickets Ticket':
+			doc = frappe.get_doc('Tickets Ticket', self.order_source_id)
+			doc.run_method("on_delivery_order_cancel")
+
+	def on_commit(self):
+		if self.order_source_type == 'Tickets Ticket':
+			doc = frappe.get_doc('Tickets Ticket', self.order_source_id)
+			doc.run_method("on_delivery_order_commit", self)
