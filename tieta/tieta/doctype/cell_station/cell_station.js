@@ -49,13 +49,15 @@ frappe.ui.form.on('Cell Station', {
 					}
 				},
 				callback: function (r) {
-					frm.set_value("devices", "");
+					var devices = frm.doc.devices;
 					if (r.results) {
 						$.each(r.results, function (i, d) {
-							var row = frappe.model.add_child(cur_frm.doc, "Cell StationDevice", "devices");
-							row.device_type = d.value;
-							row.device_name = d.value;
-							row.device_type_value = d.description;
+							if (! $.map(devices || [], function(dev) { if(dev.device_type == d.value){ return dev } })[0]) {
+								var row = frappe.model.add_child(cur_frm.doc, "Cell StationDevice", "devices");
+								row.device_type = d.value;
+								row.device_name = d.value;
+								row.device_type_value = d.description;
+							}
 						});
 					}
 					refresh_field("devices");
