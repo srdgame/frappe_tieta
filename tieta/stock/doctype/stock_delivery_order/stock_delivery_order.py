@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import throw, _
 from frappe.model.document import Document
 
 class StockDeliveryOrder(Document):
@@ -12,7 +13,9 @@ class StockDeliveryOrder(Document):
 			doc = frappe.get_doc('Tickets Ticket', self.order_source_id)
 			doc.run_method("on_delivery_order_cancel")
 
-	def on_commit(self):
+	def on_submit(self):
+		if not self.warehouse:
+			throw(_("Ware house is required!!"))
 		if self.order_source_type == 'Tickets Ticket':
 			doc = frappe.get_doc('Tickets Ticket', self.order_source_id)
 			doc.run_method("on_delivery_order_commit", self)
