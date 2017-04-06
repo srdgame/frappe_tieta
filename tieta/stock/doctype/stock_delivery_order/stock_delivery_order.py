@@ -7,7 +7,6 @@ import frappe
 from frappe import throw, _
 from frappe.model.document import Document
 from frappe.desk.form import assign_to
-from frappe.utils.data import format_datetime
 
 
 class StockDeliveryOrder(Document):
@@ -25,9 +24,9 @@ class StockDeliveryOrder(Document):
 			try:
 				assign_to.add({
 					'assign_to': self.owner,
-					'doctype': self.order_source_type,
-					'name': self.order_source_id,
-					'description': _("Ticket device items has been approved!"),
+					'doctype': self.doctype,
+					'name': self.name,
+					'description': _("Delivery Order approved!"),
 					'date': self.planned_date,
 					'priority': 'High',
 					'notify': 0
