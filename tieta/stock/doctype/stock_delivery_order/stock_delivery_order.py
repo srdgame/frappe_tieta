@@ -33,7 +33,7 @@ class StockDeliveryOrder(Document):
 					'name': self.name,
 					'description': desc,
 					'priority': 'High',
-					'notify': 1
+					'notify': 0
 				})
 			except assign_to.DuplicateToDoError:
 				frappe.message_log.pop()
