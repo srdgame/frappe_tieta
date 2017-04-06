@@ -23,15 +23,12 @@ class StockDeliveryOrder(Document):
 			doc = frappe.get_doc('Tickets Ticket', self.order_source_id)
 			doc.run_method("on_delivery_order_commit", self)
 		try:
-			print(format_datetime(self.planned_date))
-			desc = _("Stock Delivery Order has been submitted\n Planned Date: {0}").format(
-				format_datetime(self.planned_date)
-			)
 			assign_to.add({
 				'assign_to': self.owner,
 				'doctype': self.order_source_type,
 				'name': self.order_source_id,
-				'description': desc,
+				'description': _("Stock Delivery Order has been submitted"),
+				'date': self.planned_date,
 				'priority': 'High',
 				'notify': 0
 			})
