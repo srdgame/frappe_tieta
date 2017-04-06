@@ -22,16 +22,16 @@ class StockDeliveryOrder(Document):
 		if self.order_source_type == 'Tickets Ticket':
 			doc = frappe.get_doc('Tickets Ticket', self.order_source_id)
 			doc.run_method("on_delivery_order_commit", self)
-		try:
-			assign_to.add({
-				'assign_to': self.owner,
-				'doctype': self.order_source_type,
-				'name': self.order_source_id,
-				'description': _("Stock Delivery Order has been submitted"),
-				'date': self.planned_date,
-				'priority': 'High',
-				'notify': 0
-			})
-		except assign_to.DuplicateToDoError:
-			frappe.message_log.pop()
-			pass
+			try:
+				assign_to.add({
+					'assign_to': self.owner,
+					'doctype': self.order_source_type,
+					'name': self.order_source_id,
+					'description': _("Stock Delivery Order has been submitted"),
+					'date': self.planned_date,
+					'priority': 'High',
+					'notify': 0
+				})
+			except assign_to.DuplicateToDoError:
+				frappe.message_log.pop()
+				pass
