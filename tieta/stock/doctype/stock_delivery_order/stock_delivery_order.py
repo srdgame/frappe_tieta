@@ -27,7 +27,7 @@ class StockDeliveryOrder(Document):
 					'assign_to': self.owner,
 					'doctype': self.order_source_type,
 					'name': self.order_source_id,
-					'description': _("Stock Delivery Order has been submitted"),
+					'description': _("Ticket device items has been approved!"),
 					'date': self.planned_date,
 					'priority': 'High',
 					'notify': 0
