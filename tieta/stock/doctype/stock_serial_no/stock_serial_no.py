@@ -7,7 +7,27 @@ import frappe
 from frappe.model.document import Document
 
 class StockSerialNo(Document):
-	pass
+	def on_update(self):
+		org_warehouse = self.get("warehouse")
+		warehouse = self.warehouse
+		if org_warehouse and org_warehouse != warehouse:
+			doc = frappe.get_doc({
+				"doctype": "Stock Item History",
+				"inout": 'OUT',
+				"item_type": "Stock Serial No",
+				"item": self.name,
+				"position_type": "Stock Warehouse",
+				"position": org_warehouse
+			}).insert()
+		if warehouse:
+			doc = frappe.get_doc({
+				"doctype": "Stock Item History",
+				"inout": 'IN',
+				"item_type": "Stock Serial No",
+				"item": self.name,
+				"position_type": "Stock Warehouse",
+				"position": warehouse
+			}).insert()
 
 
 def stock_serial_no_query(doctype, txt, searchfield, start, page_len, filters):
