@@ -7,27 +7,44 @@ import frappe
 from frappe.model.document import Document
 
 class StockSerialNo(Document):
-	def on_update(self):
-		org_warehouse = self.get("warehouse")
+	def __in_warehouse(self, warehouse):
+		if not warehouse:
+			return
+		doc = frappe.get_doc({
+			"doctype": "Stock Item History",
+			"inout": 'IN',
+			"item_type": "Stock Serial No",
+			"item": self.name,
+			"position_type": "Stock Warehouse",
+			"position": warehouse
+		}).insert()
+
+	def __out_warehouse(self, warehouse):
+		if not warehouse:
+			return
+		doc = frappe.get_doc({
+			"doctype": "Stock Item History",
+			"inout": 'OUT',
+			"item_type": "Stock Serial No",
+			"item": self.name,
+			"position_type": "Stock Warehouse",
+			"position": warehouse
+		}).insert()
+
+	def before_update_after_submit(self):
+		if self.is_new():
+			return
+		org_warehouse = frappe.get_value("Stock Serial No", self.name, "warehouse")
 		warehouse = self.warehouse
-		if org_warehouse and org_warehouse != warehouse:
-			doc = frappe.get_doc({
-				"doctype": "Stock Item History",
-				"inout": 'OUT',
-				"item_type": "Stock Serial No",
-				"item": self.name,
-				"position_type": "Stock Warehouse",
-				"position": org_warehouse
-			}).insert()
-		if warehouse:
-			doc = frappe.get_doc({
-				"doctype": "Stock Item History",
-				"inout": 'IN',
-				"item_type": "Stock Serial No",
-				"item": self.name,
-				"position_type": "Stock Warehouse",
-				"position": warehouse
-			}).insert()
+		if org_warehouse == warehouse:
+			return
+
+		self.__out_warehouse(org_warehouse)
+		self.__in_warehouse(warehouse)
+
+	def on_submit(self):
+		self.__in_warehouse(self.warehouse)
+
 
 
 def stock_serial_no_query(doctype, txt, searchfield, start, page_len, filters):
