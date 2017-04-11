@@ -12,6 +12,13 @@ class StockEntry(Document):
 	def validate(self):
 		if self.purpose == 'Material Transfer' and not self.source_warehouse:
 			throw(_("Source Warehouse is required"))
+		for item in self.items:
+			doc = frappe.get_doc("Stock Serial No", item.serial_no)
+			if not doc:
+				throw(_("Serial NO is not validate! {0}").format(item.serial_no))
+			if doc.warehouse and doc.warehouse != self.source_warehouse:
+				throw(_("Serial NO {0} is not in Warehouse {1} but in {2}").format(
+					item.serial_no, self.source_warehouse, doc.warehouse))
 
 	def on_submit(self):
 		for item in self.items:
