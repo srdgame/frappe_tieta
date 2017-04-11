@@ -34,3 +34,12 @@ class StockDeliveryOrder(Document):
 			except assign_to.DuplicateToDoError:
 				frappe.message_log.pop()
 				pass
+
+		for item in self.items:
+			doc = frappe.get_doc("Stock Serial No", item.serial_no)
+			if not doc:
+				throw(_("Serial NO is not validate! {0}").format(item.serial_no))
+			if doc.warehouse != self.warehouse:
+				throw(_("Serial NO {0} is not in Warehouse {1}").format(
+					item.serial_no, self.warehouse))
+			doc.warehouse = None
