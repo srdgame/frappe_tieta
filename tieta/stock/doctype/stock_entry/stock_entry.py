@@ -29,6 +29,7 @@ class StockEntry(Document):
 				throw(_("Serial NO {0} is not in Warehouse {1} but in {2}").format(
 					item.serial_no, self.source_warehouse, doc.warehouse))
 			doc.warehouse = self.warehouse
+			doc.save()
 
 	def on_cancel(self):
 		for item in self.items:
@@ -39,3 +40,4 @@ class StockEntry(Document):
 				throw(_("Serial NO {0} is not in Warehouse {1}").format(
 					item.serial_no, doc.warehouse))
 			doc.warehouse = self.source_warehouse
+			doc.save()
