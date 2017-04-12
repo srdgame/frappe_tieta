@@ -14,9 +14,10 @@ def get_context(context):
 
 	context.title = _("Cell Station")
 	doc = frappe.get_doc("Cell Station", name)
+	symlink_type = frappe.db.get_single_value('Cell Station Settings', 'symlink_device_type')
 	sn = None
 	for dev in doc.devices:
-		if dev.device_type == 'SymLink':
+		if dev.device_type == symlink_type:
 			sn = dev.device_id
 	if sn:
 		context.vsn = iot_device_tree(sn)
