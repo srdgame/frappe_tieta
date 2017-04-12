@@ -1,0 +1,48 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header %} <h1>{{ doc.name }}</h1> {% endblock %}
+
+
+
+{% block page_content %}
+<table border="1">
+	<tr>
+	<th>Code:{{ doc.code }}</th>
+	<th>Name:{{ doc.station_name }}</th>
+	<th>Address:{{ doc.address_text }}</th>
+	<th>Description:{{ doc.descrition }}</th>
+	<th>Station Type:{{ doc.station_type }}</th>
+	<th>Setup Type:{{ doc.setup_type }}</th>
+	<th>Power Level:{{ doc.power_level }}</th>
+	<th>Setup Time:{{ doc.setup_time }}</th>
+	<th>Battery Setup Type:{{ doc.battery_setup_type }}</th>
+	</tr>
+</table>
+	<div>
+		<h1> Devices </h1>
+		{% for dev in doc.devices %}
+		<div>
+			{{ dev.device_id }}
+			{{ dev.device_type }}
+			{{ dev.device_name }}
+		</div>
+		{% endfor %}
+	</div>
+	<div>
+		<h1> Services </h1>
+		{% for s in doc.cell_service_list %}
+		<div>
+			{{ s.service_type }}
+		</div>
+		{% endfor %}
+	</div>
+	<div>
+		<h1> VSN </h1>
+		{% for sn in vsn %}
+			{{ sn }}
+		{% endfor %}
+	</div>
+
+{% endblock %}

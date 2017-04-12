@@ -1,0 +1,16 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header %} <h1>{{ title }}</h1> {% endblock %}
+
+{% block page_content %}
+
+{% for cs in cell_list %}
+	{{ cs.code }}
+	{{ cs.name }}
+	{{ cs.address_text }}
+	{{ cs.station_name }}
+{% endfor %}
+
+{% endblock %}
