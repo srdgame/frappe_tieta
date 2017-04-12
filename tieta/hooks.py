@@ -53,7 +53,7 @@ app_license = "MIT"
 
 # Website Route Rules
 website_route_rules = [
-	{"from_route": "/cell_staitons/<path:name>", "to_route": "cell_station",
+	{"from_route": "/cell_stations/<path:name>", "to_route": "cell_station",
 		"defaults": {
 			"doctype": "Cell Station",
 			"parents": [{"title": _("Cell Station List"), "name": "cell_staiton_list"}]
