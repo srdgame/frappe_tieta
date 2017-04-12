@@ -20,5 +20,6 @@ def get_context(context):
 			sn = dev.device_id
 	if sn:
 		context.vsn = iot_device_tree(sn)
+		context.sn = sn
 
 	context.doc = doc
