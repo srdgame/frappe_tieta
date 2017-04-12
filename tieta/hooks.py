@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from . import __version__ as app_version
+from frappe import _
 
 app_name = "tieta"
 app_title = "TieTa"
@@ -50,6 +51,15 @@ app_license = "MIT"
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
 
+# Website Route Rules
+website_route_rules = [
+	{"from_route": "/cell_staitons/<path:name>", "to_route": "cell_station",
+		"defaults": {
+			"doctype": "Cell Station",
+			"parents": [{"title": _("Cell Station List"), "name": "cell_staiton_list"}]
+		}
+	},
+]
 # Installation
 # ------------
 

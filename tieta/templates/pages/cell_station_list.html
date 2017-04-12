@@ -7,10 +7,15 @@
 {% block page_content %}
 
 {% for cs in cell_list %}
+<div>
 	{{ cs.code }}
 	{{ cs.name }}
 	{{ cs.address_text }}
 	{{ cs.station_name }}
+	<a href="/cell_stations/{{ cs.name }}">
+		<h6 class="text-muted">{{ cs.station_name }}</h6>
+	</a>
+</div>
 {% endfor %}
 
 {% endblock %}
