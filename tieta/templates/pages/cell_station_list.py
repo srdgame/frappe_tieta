@@ -5,7 +5,12 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 
+
 def get_context(context):
+	if frappe.session.user == 'Guest':
+		frappe.local.flags.redirect_location = "/login"
+		raise frappe.Redirect
+
 	txt = frappe.form_dict.txt or ""
 	rgn = frappe.form_dict.rgn or "RGN000001"
 	rgn_type = frappe.form_dict.rgn_type or "province"

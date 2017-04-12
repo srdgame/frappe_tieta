@@ -6,7 +6,12 @@ import frappe
 from frappe import _
 from iot.hdb import iot_device_tree
 
+
 def get_context(context):
+	if frappe.session.user == 'Guest':
+		frappe.local.flags.redirect_location = "/login"
+		raise frappe.Redirect
+
 	name = frappe.form_dict.name
 
 	context.no_cache = 1
