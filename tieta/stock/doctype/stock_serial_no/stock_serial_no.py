@@ -16,7 +16,9 @@ class StockSerialNo(Document):
 			"item_type": "Stock Serial No",
 			"item": self.name,
 			"position_type": "Stock Warehouse",
-			"position": warehouse
+			"position": warehouse,
+			"qty": 1,
+			"uom": frappe.get_value("Stock Item", self.item_code, "stock_uom"),
 		}).insert()
 
 	def __out_warehouse(self, warehouse):
@@ -28,7 +30,9 @@ class StockSerialNo(Document):
 			"item_type": "Stock Serial No",
 			"item": self.name,
 			"position_type": "Stock Warehouse",
-			"position": warehouse
+			"position": warehouse,
+			"qty": 1,
+			"uom": frappe.get_value("Stock Item", self.item_code, "stock_uom"),
 		}).insert()
 
 	def before_update_after_submit(self):

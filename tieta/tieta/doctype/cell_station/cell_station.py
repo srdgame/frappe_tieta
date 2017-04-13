@@ -15,6 +15,8 @@ class CellStation(Document):
 			"item": device_id,
 			"position_type": "Cell Station",
 			"position": self.name,
+			"qty": 1,
+			"uom": frappe.get_value("Stock Item", device_id, "stock_uom"),
 			"remark": device_type_name
 		}).insert()
 
@@ -26,6 +28,8 @@ class CellStation(Document):
 			"item": device_id,
 			"position_type": "Cell Station",
 			"position": self.name,
+			"qty": 1,
+			"uom": frappe.get_value("Stock Item", device_id, "stock_uom"),
 			"remark": device_type_name
 		}).insert()
 
