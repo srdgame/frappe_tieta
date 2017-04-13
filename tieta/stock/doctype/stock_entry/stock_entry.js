@@ -3,10 +3,19 @@
 
 frappe.ui.form.on('Stock Entry', {
 	setup: function(frm) {
-		frm.fields_dict['items'].grid.get_field("serial_no").get_query  = function(){
+		frm.fields_dict['items'].grid.get_field("serial_no").get_query = function (doc, cdt, cdn) {
+			var d = locals[cdt][cdn];
 			return {
 				filters: {
-					"item_code": frm.doc.item
+					"item_code": d.item_type
+				}
+			};
+		};
+		frm.fields_dict['items'].grid.get_field("batch_no").get_query = function (doc, cdt, cdn) {
+			var d = locals[cdt][cdn];
+			return {
+				filters: {
+					"item_code": d.item_type
 				}
 			};
 		};
