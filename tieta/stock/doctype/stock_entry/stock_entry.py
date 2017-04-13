@@ -13,6 +13,11 @@ class StockEntry(Document):
 		if self.purpose == 'Material Transfer' and not self.source_warehouse:
 			throw(_("Source Warehouse is required"))
 		for item in self.items:
+			item.uom = frappe.get_value("Stock Item", item.item_type, "stock_uom")
+			item.item_name = frappe.get_value("Stock Item", item.item_type, "item_name")
+			if not item.serial_no:
+				continue
+			item.batch_no = frappe.get_value("Stock Serial No", item.serial_no, "batch_no")
 			doc = frappe.get_doc("Stock Serial No", item.serial_no)
 			if not doc:
 				throw(_("Serial NO is not validate! {0}").format(item.serial_no))
@@ -22,6 +27,8 @@ class StockEntry(Document):
 
 	def on_submit(self):
 		for item in self.items:
+			if not item.serial_no:
+				continue
 			doc = frappe.get_doc("Stock Serial No", item.serial_no)
 			if not doc:
 				throw(_("Serial NO is not validate! {0}").format(item.serial_no))
@@ -33,6 +40,8 @@ class StockEntry(Document):
 
 	def on_cancel(self):
 		for item in self.items:
+			if not item.serial_no:
+				continue
 			doc = frappe.get_doc("Stock Serial No", item.serial_no)
 			if not doc:
 				throw(_("Serial NO is not validate! {0}").format(item.serial_no))
