@@ -78,3 +78,34 @@ class CellStation(Document):
 		site.set("longitude", self.longitude)
 		site.set("latitude", self.latitude)
 		site.save(ignore_permissions=True)
+
+
+@frappe.whitelist()
+def search_station(txt="", rgn="RGN000001", rgn_type="province", start=0, page_length=20, order_by="modified desc"):
+	user_roles = frappe.get_roles(frappe.session.user)
+	if 'TieTa User' not in user_roles:
+		raise frappe.PermissionError
+
+	projects = None
+	if frappe.session.user != 'Administrator':
+		projects = [d.project for d in frappe.get_doc('Cell Station Admin', frappe.session.user).projects]
+	else:
+		projects = [d[0] for d in frappe.db.get_values('Cloud Project', {"enabled":1}, 'name')]
+
+	rgn_key = 'region_address.' + rgn_type
+
+	return frappe.db.sql('''select distinct station.*
+		from `tabCell Station` station, `tabRegion Address` region_address
+		where
+			station.name = region_address.parent
+			and {3} = %(rgn)s and station.project in {4}
+			and station.station_name like %(txt)s order by station.{0}
+			limit {1}, {2}
+		'''.format(order_by, start, page_length, rgn_key, "('"+"','".join(projects)+"')"),
+			{'rgn' : rgn, 'txt' : "%%%s%%" % txt},
+			as_dict=True,
+			update={'doctype' : 'Cell Station'})
+
+
+def __search_station(*args, **kwargs):
+	return __search_station(*args, **kwargs)
