@@ -40,7 +40,7 @@ frappe.ui.form.on("Stock Batch No", "item_code", function(frm) {
 			frm.set_value("attributes", "");
 			if (r.results) {
 				$.each(r.results, function (i, d) {
-					var row = frappe.model.add_child(cur_frm.doc, "Stock Batch NoAttribute", "attributes");
+					var row = frappe.model.add_child(cur_frm.doc, "Stock Item AttributeValue", "attributes");
 					row.attribute = d.value;
 					row.attr_name = d.description;
 				});
