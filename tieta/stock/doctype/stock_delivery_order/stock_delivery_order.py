@@ -10,12 +10,13 @@ from frappe.desk.form import assign_to
 
 
 class StockDeliveryOrder(Document):
-	def on_cancel(self):
-		if self.order_source_type == 'Tickets Ticket':
-			doc = frappe.get_doc('Tickets Ticket', self.order_source_id)
-			doc.run_method("on_delivery_order_cancel")
-
+	def validate(self):
 		for item in self.items:
+			item.uom = frappe.get_value("Stock Item", item.item_type, "stock_uom")
+			item.item_name = frappe.get_value("Stock Item", item.item_type, "item_name")
+			if not item.serial_no:
+				continue
+			item.batch_no = frappe.get_value("Stock Serial No", item.serial_no, "batch_no")
 			doc = frappe.get_doc("Stock Serial No", item.serial_no)
 			if not doc:
 				throw(_("Serial NO is not validate! {0}").format(item.serial_no))
@@ -44,6 +45,8 @@ class StockDeliveryOrder(Document):
 				pass
 
 		for item in self.items:
+			if not item.serial_no:
+				continue
 			doc = frappe.get_doc("Stock Serial No", item.serial_no)
 			if not doc:
 				throw(_("Serial NO is not validate! {0}").format(item.serial_no))
@@ -54,7 +57,13 @@ class StockDeliveryOrder(Document):
 			doc.save()
 
 	def on_cancel(self):
+		if self.order_source_type == 'Tickets Ticket':
+			doc = frappe.get_doc('Tickets Ticket', self.order_source_id)
+			doc.run_method("on_delivery_order_cancel")
+
 		for item in self.items:
+			if not item.serial_no:
+				continue
 			doc = frappe.get_doc("Stock Serial No", item.serial_no)
 			if not doc:
 				throw(_("Serial NO is not validate! {0}").format(item.serial_no))
