@@ -50,7 +50,6 @@ class StockSerialNo(Document):
 		self.__in_warehouse(self.warehouse)
 
 
-
 def stock_serial_no_query(doctype, txt, searchfield, start, page_len, filters):
 	if not filters:
 		return frappe.db.sql("""select name, warehouse from `tabStock Serial No`

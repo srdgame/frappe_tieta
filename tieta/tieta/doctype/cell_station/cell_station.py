@@ -53,7 +53,6 @@ class CellStation(Document):
 			if d.name not in keep_list:
 				self.__out_station(d.device_type_value, d.device_id, dev.device_type)
 
-
 	def after_insert(self):
 		data = {
 			"naming_series": "CELL-",
