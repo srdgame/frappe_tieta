@@ -1,0 +1,21 @@
+<div class="web-list-item">
+	<a class="no-decoration" href="/cell_stations/{{ doc.name }}">
+		<div class="row">
+			<div class="col-xs-4">
+				<span class="indicator green">
+					{{ doc.station_name }}
+				</span>
+				<div class="small text-muted item-timestamp"
+					title="{{ frappe.utils.pretty_date(doc.modified) }}">
+					modified {{ frappe.utils.pretty_date(doc.modified) }}
+				</div>
+			</div>
+			<div class="col-xs-2">
+				{{ doc.code }}
+			</div>
+			<div class="col-xs-6 text-right small text-muted">
+				{{ doc.address_text }}
+			</div>
+		</div>
+	</a>
+</div>
