@@ -7,6 +7,10 @@ import frappe
 from frappe.model.document import Document
 
 class CellStation(Document):
+	def __get_uom(self, device_type, device_id):
+		item_code = frappe.get_value(device_type, device_id, 'item_code')
+		return frappe.get_value("Stock Item", item_code, "stock_uom"),
+
 	def __in_station(self, device_type, device_id, device_type_name):
 		doc = frappe.get_doc({
 			"doctype": "Stock Item History",
@@ -16,7 +20,7 @@ class CellStation(Document):
 			"position_type": "Cell Station",
 			"position": self.name,
 			"qty": 1,
-			"uom": frappe.get_value("Stock Item", device_type, "stock_uom"),
+			"uom": self.__get_uom(device_type, device_id),
 			"remark": device_type_name
 		}).insert()
 
@@ -29,7 +33,7 @@ class CellStation(Document):
 			"position_type": "Cell Station",
 			"position": self.name,
 			"qty": 1,
-			"uom": frappe.get_value("Stock Item", device_type, "stock_uom"),
+			"uom": self.__get_uom(device_type, device_id),
 			"remark": device_type_name
 		}).insert()
 
