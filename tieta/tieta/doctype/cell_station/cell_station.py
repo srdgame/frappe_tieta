@@ -9,7 +9,7 @@ from frappe.model.document import Document
 class CellStation(Document):
 	def __get_uom(self, device_type, device_id):
 		item_code = frappe.get_value(device_type, device_id, 'item_code')
-		return frappe.get_value("Stock Item", item_code, "stock_uom"),
+		return frappe.get_value("Stock Item", item_code, "stock_uom")
 
 	def __in_station(self, device_type, device_id, device_type_name):
 		doc = frappe.get_doc({
