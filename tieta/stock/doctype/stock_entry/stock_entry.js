@@ -19,6 +19,13 @@ frappe.ui.form.on('Stock Entry', {
 				}
 			};
 		};
+		frm.fields_dict['order_id'].get_query = function() {
+			return {
+				filters: {
+					"docstatus": 1
+				}
+			}
+		};
 	},
 	refresh: function(frm) {
 
