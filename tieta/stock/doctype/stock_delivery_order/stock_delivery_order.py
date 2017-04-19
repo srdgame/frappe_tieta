@@ -39,7 +39,7 @@ class StockDeliveryOrder(Document):
 	def validate(self):
 		for item in self.items:
 			item.uom = frappe.get_value("Stock Item", item.item, "stock_uom")
-			item.item_name = frappe.get_value("Stock Item", item.item_type, "item_name")
+			item.item_name = frappe.get_value("Stock Item", item.item, "item_name")
 			if not item.serial_no:
 				continue
 			item.batch_no = frappe.get_value("Stock Serial No", item.serial_no, "batch_no")

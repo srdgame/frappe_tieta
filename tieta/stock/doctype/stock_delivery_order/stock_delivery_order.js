@@ -40,3 +40,25 @@ frappe.ui.form.on("Stock Delivery Order", "warehouse", function(frm) {
 		}
 	});
 });
+
+frappe.ui.form.on('Stock Delivery OrderItem', {
+	item: function(doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		frappe.call({
+			method: "frappe.client.get",
+			args: {
+				doctype: "Stock Item",
+				name: d.item,
+				filters: {
+					docstatus: 1
+				}
+			},
+			callback: function(r, rt) {
+				if(r.message) {
+					frappe.model.set_value(cdt, cdn, "item_name", r.message.item_name);
+					frappe.model.set_value(cdt, cdn, "uom", r.message.stock_uom);
+				}
+			}
+		});
+	}
+});
