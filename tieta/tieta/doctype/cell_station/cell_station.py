@@ -7,8 +7,8 @@ import frappe
 from frappe.model.document import Document
 
 class CellStation(Document):
-	def __get_uom(self, device_type, device_id):
-		item_code = frappe.get_value(device_type, device_id, 'item_code')
+	def __get_uom(self, device_type):
+		item_code = frappe.get_value('Cell Station Device Type', device_type, 'type_item')
 		return frappe.get_value("Stock Item", item_code, "stock_uom")
 
 	def __in_station(self, device_type, device_id, device_type_name):
@@ -20,7 +20,7 @@ class CellStation(Document):
 			"position_type": "Cell Station",
 			"position": self.name,
 			"qty": 1,
-			"uom": self.__get_uom(device_type, device_id),
+			"uom": self.__get_uom(device_type_name),
 			"remark": device_type_name
 		}).insert()
 
@@ -33,7 +33,7 @@ class CellStation(Document):
 			"position_type": "Cell Station",
 			"position": self.name,
 			"qty": 1,
-			"uom": self.__get_uom(device_type, device_id),
+			"uom": self.__get_uom(device_type_name),
 			"remark": device_type_name
 		}).insert()
 
@@ -55,7 +55,7 @@ class CellStation(Document):
 								filters={"parent": self.name},
 								fields=["name", "device_id", "device_type_value", "device_type"]):
 			if d.name not in keep_list:
-				self.__out_station(d.device_type_value, d.device_id, dev.device_type)
+				self.__out_station(d.device_type_value, d.device_id, d.device_type)
 
 	def after_insert(self):
 		data = {

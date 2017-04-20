@@ -7,7 +7,13 @@ import frappe
 from frappe.model.document import Document
 
 class CellStationDeviceType(Document):
-	pass
+	def validate(self):
+		self.type_doc = 'Stock Item'
+		doc = frappe.get_doc('Stock Item', self.type_item)
+		if doc.has_batch_no:
+			self.type_doc = 'Stock Batch No'
+		if doc.has_serial_no:
+			self.type_doc = 'Stock Serial No'
 
 
 def query_types(doctype, txt, searchfield, start, page_len, filters):

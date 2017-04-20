@@ -31,6 +31,22 @@ frappe.ui.form.on('Cell Station', {
 			};
 		};
 		frm.fields_dict['address'].grid.cannot_add_rows = true;
+
+		frm.fields_dict['devices'].grid.get_field("device_id").get_query = function (doc, cdt, cdn) {
+			var d = locals[cdt][cdn];
+			if (d.device_type_value == 'Stock Item') {
+				return {
+					filters: {
+						"name": d.device_item
+					}
+				};
+			}
+			return {
+				filters: {
+					"item_code": d.device_item
+				}
+			};
+		};
 	},
 	refresh: function (frm) {
 	},
@@ -39,24 +55,23 @@ frappe.ui.form.on('Cell Station', {
 		grid.add_custom_button(__('Add Device Items'), function() {
 			frappe.call({
 				type: "GET",
-				method: 'frappe.desk.search.search_link',
+				method: 'frappe.client.get_list',
 				args: {
-					"doctype": "Cell Station Device Type",
-					"txt": "",
-					"query": "tieta.tieta.doctype.cell_station_device_type.cell_station_device_type.query_types",
-					"filters": {
+					doctype: "Cell Station Device Type",
+					filters: {
 						"docstatus": 1
-					}
+					},
+					fields: ["name", "type_item", "type_doc"]
 				},
 				callback: function (r) {
 					var devices = frm.doc.devices;
-					if (r.results) {
-						$.each(r.results, function (i, d) {
-							if (! $.map(devices || [], function(dev) { if(dev.device_type == d.value){ return dev } })[0]) {
+					if (r.message) {
+						$.each(r.message, function (i, d) {
+							if (! $.map(devices || [], function(dev) { if(dev.device_type == d.name){ return dev } })[0]) {
 								var row = frappe.model.add_child(cur_frm.doc, "Cell StationDevice", "devices");
-								row.device_type = d.value;
-								row.device_name = d.value;
-								row.device_type_value = d.description;
+								row.device_type = d.name;
+								row.device_item = d.type_item;
+								row.device_type_value = d.type_doc;
 							}
 						});
 					}
@@ -84,18 +99,17 @@ frappe.ui.form.on('Cell StationDevice', {
 	device_type: function(doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.call({
-			method: "frappe.client.get_value",
+			method: "frappe.client.get",
 			args: {
 				doctype: "Cell Station Device Type",
-				fieldname: "type_doc",
+				name: d.device_type,
 				filters: {
-					name: d.device_type,
 					docstatus: 1
 				}
 			},
 			callback: function(r, rt) {
 				if(r.message) {
-					frappe.model.set_value(cdt, cdn, "device_name", d.device_type);
+					frappe.model.set_value(cdt, cdn, "device_item", r.message.type_item);
 					frappe.model.set_value(cdt, cdn, "device_type_value", r.message.type_doc);
 				}
 			}
