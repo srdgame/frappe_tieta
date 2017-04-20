@@ -84,6 +84,7 @@ frappe.ui.form.on('Cell Station', {
 	},
 	update_address: function(frm, row) {
 		frappe.call({
+			type: "GET",
 			method: "cloud.cloud.doctype.region_address.region_address.get_address_text",
 			args: row,
 			callback: function (r, rt) {
@@ -99,6 +100,7 @@ frappe.ui.form.on('Cell StationDevice', {
 	device_type: function(doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.call({
+			type: "GET",
 			method: "frappe.client.get",
 			args: {
 				doctype: "Cell Station Device Type",

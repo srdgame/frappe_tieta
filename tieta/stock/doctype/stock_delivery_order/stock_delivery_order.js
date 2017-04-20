@@ -8,7 +8,8 @@ frappe.ui.form.on('Stock Delivery Order', {
 			return {
 				filters: {
 					"item_code": d.item,
-					"warehouse": frm.doc.warehouse
+					"warehouse": frm.doc.warehouse,
+					"docstatus": 1
 				}
 			};
 		};
@@ -16,7 +17,8 @@ frappe.ui.form.on('Stock Delivery Order', {
 			var d = locals[cdt][cdn];
 			return {
 				filters: {
-					"item_code": d.item
+					"item_code": d.item,
+					"docstatus": 1
 				}
 			};
 		};
@@ -46,6 +48,7 @@ frappe.ui.form.on('Stock Delivery OrderItem', {
 	item: function(doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.call({
+			type: "GET",
 			method: "frappe.client.get",
 			args: {
 				doctype: "Stock Item",
@@ -61,5 +64,25 @@ frappe.ui.form.on('Stock Delivery OrderItem', {
 				}
 			}
 		});
+	},
+	serial_no: function(doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		if (d.serial_no) {
+			frappe.model.set_value(cdt, cdn, "qty", 1);
+			if (!d.batch_no) {
+				frappe.call({
+					type: "GET",
+					method: "frappe.client.get_value",
+					args: {
+						doctype: "Stock Serial No",
+						fieldname: "batch_no",
+						filters: { name: d.serial_no },
+					},
+					callback: function (r, rt) {
+						frappe.model.set_value(cdt, cdn, "batch_no", r.message.batch_no);
+					}
+				});
+			}
+		}
 	}
 });

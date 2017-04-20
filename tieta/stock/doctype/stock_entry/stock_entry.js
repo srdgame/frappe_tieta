@@ -5,9 +5,19 @@ frappe.ui.form.on('Stock Entry', {
 	setup: function(frm) {
 		frm.fields_dict['items'].grid.get_field("serial_no").get_query = function (doc, cdt, cdn) {
 			var d = locals[cdt][cdn];
+			if (d.batch_no) {
+				return {
+				filters: {
+						"item_code": d.item_type,
+						"batch_no": d.batch_no,
+						"docstatus": 1
+					}
+				};
+			}
 			return {
 				filters: {
-					"item_code": d.item_type
+					"item_code": d.item_type,
+					"docstatus": 1
 				}
 			};
 		};
@@ -15,7 +25,8 @@ frappe.ui.form.on('Stock Entry', {
 			var d = locals[cdt][cdn];
 			return {
 				filters: {
-					"item_code": d.item_type
+					"item_code": d.item_type,
+					"docstatus": 1
 				}
 			};
 		};
@@ -52,6 +63,7 @@ frappe.ui.form.on('Stock EntryItem', {
 	item_type: function(doc, cdt, cdn) {
 		var d = locals[cdt][cdn];
 		frappe.call({
+			type: "GET",
 			method: "frappe.client.get",
 			args: {
 				doctype: "Stock Item",
@@ -67,5 +79,25 @@ frappe.ui.form.on('Stock EntryItem', {
 				}
 			}
 		});
+	},
+	serial_no: function(doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		if (d.serial_no) {
+			frappe.model.set_value(cdt, cdn, "qty", 1);
+			if (!d.batch_no) {
+				frappe.call({
+					type: "GET",
+					method: "frappe.client.get_value",
+					args: {
+						doctype: "Stock Serial No",
+						fieldname: "batch_no",
+						filters: { name: d.serial_no },
+					},
+					callback: function (r, rt) {
+						frappe.model.set_value(cdt, cdn, "batch_no", r.message.batch_no);
+					}
+				});
+			}
+		}
 	}
 });
