@@ -15,7 +15,7 @@ attribute_type_map = {
 	"serial": "serial_attribute"
 }
 
-
+'''
 def stock_item_attribute_query(doctype, txt, searchfield, start, page_len, filters):
 	if not filters:
 		return frappe.db.sql("""select name, attribute from `tabStock Item Attribute`
@@ -30,3 +30,4 @@ def stock_item_attribute_query(doctype, txt, searchfield, start, page_len, filte
 		and %s like %s order by name limit %s, %s""" %
 		("%s", "%s", searchfield, "%s", "%s", "%s"),
 		(typ, item_code, "%%%s%%" % txt, start, page_len), as_list=1)
+'''

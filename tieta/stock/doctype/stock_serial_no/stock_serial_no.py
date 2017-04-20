@@ -49,7 +49,7 @@ class StockSerialNo(Document):
 	def on_submit(self):
 		self.__in_warehouse(self.warehouse)
 
-
+'''
 def stock_serial_no_query(doctype, txt, searchfield, start, page_len, filters):
 	if not filters:
 		return frappe.db.sql("""select name, warehouse from `tabStock Serial No`
@@ -64,3 +64,4 @@ def stock_serial_no_query(doctype, txt, searchfield, start, page_len, filters):
 		and %s like %s order by name limit %s, %s""" %
 		("%s", searchfield, "%s", "%s", "%s"),
 		(item_code, "%%%s%%" % txt, start, page_len), as_list=1)
+'''

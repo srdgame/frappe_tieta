@@ -6,8 +6,8 @@ frappe.ui.form.on('Stock Serial No', {
 		frm.fields_dict['attributes'].grid.get_field("attribute").get_query  = function(){
 			return {
 				filters: {
-					"type": "serial",
-					"item_code": frm.doc.item_code
+					"parentfield": "serial_attribute",
+					"parent": frm.doc.item_code
 				}
 			};
 		};
@@ -20,8 +20,9 @@ frappe.ui.form.on('Stock Serial No', {
 		};
 		frm.fields_dict['item_code'].get_query  = function(){
 			return {
-				query:"tieta.stock.doctype.stock_item.stock_item.stock_item_query",
-				filters: {"from": "serial_no"}
+				filters: {
+					"has_serial_no": 1
+				}
 			};
 		};
 	},
@@ -38,8 +39,8 @@ frappe.ui.form.on("Stock Serial No", "item_code", function(frm) {
 			"doctype": "Stock Item Attribute",
 			"txt": "",
 			"filters": {
-				"type": "serial",
-				"item_code": frm.doc.item_code
+				"parentfield": "serial_attribute",
+				"parent": frm.doc.item_code
 			}
 		},
 		callback: function (r) {

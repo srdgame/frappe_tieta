@@ -9,7 +9,7 @@ from frappe.model.document import Document
 class StockBatchNo(Document):
 	pass
 
-
+'''
 def stock_batch_no_query(doctype, txt, searchfield, start, page_len, filters):
 	if not filters:
 		return frappe.db.sql("""select name, description from `tabStock Batch No`
@@ -24,3 +24,4 @@ def stock_batch_no_query(doctype, txt, searchfield, start, page_len, filters):
 			and %s like %s order by name limit %s, %s""" %
 			("%s", searchfield, "%s", "%s", "%s"),
 			(filters["item_code"], "%%%s%%" % txt, start, page_len), as_list=1)
+'''

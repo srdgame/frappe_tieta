@@ -7,7 +7,8 @@ frappe.ui.form.on('Stock Delivery Order', {
 			var d = locals[cdt][cdn];
 			return {
 				filters: {
-					"item_code": d.item
+					"item_code": d.item,
+					"warehouse": frm.doc.warehouse
 				}
 			};
 		};

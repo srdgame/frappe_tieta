@@ -6,15 +6,16 @@ frappe.ui.form.on('Stock Batch No', {
 		frm.fields_dict['attributes'].grid.get_field("attribute").get_query  = function(){
 			return {
 				filters: {
-					"type": "batch",
-					"item_code": frm.doc.item_code
+					"parentfield": "batch_attribute",
+					"parent": frm.doc.item_code
 				}
 			};
 		};
 		frm.fields_dict['item_code'].get_query  = function(){
 			return {
-				query:"tieta.stock.doctype.stock_item.stock_item.stock_item_query",
-				filters: {"from": "batch_no"}
+				filters: {
+					"has_batch_no": 1
+				}
 			};
 		};
 	},
@@ -32,8 +33,8 @@ frappe.ui.form.on("Stock Batch No", "item_code", function(frm) {
 			"doctype": "Stock Item Attribute",
 			"txt": "",
 			"filters": {
-				"type": "batch",
-				"item_code": frm.doc.item_code
+				"parentfield": "batch_attribute",
+				"parent": frm.doc.item_code
 			}
 		},
 		callback: function (r) {
