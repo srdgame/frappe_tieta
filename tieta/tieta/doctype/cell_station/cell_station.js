@@ -43,7 +43,8 @@ frappe.ui.form.on('Cell Station', {
 			}
 			return {
 				filters: {
-					"item_code": d.device_item
+					"item_code": d.device_item,
+					"docstatus": 1
 				}
 			};
 		};
