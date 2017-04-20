@@ -155,7 +155,7 @@
    "read_only": 0, 
    "remember_last_selected_value": 0, 
    "report_hide": 0, 
-   "reqd": 0, 
+   "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
    "unique": 0
@@ -230,7 +230,7 @@
  "issingle": 0, 
  "istable": 1, 
  "max_attachments": 0, 
- "modified": "2017-04-19 17:15:07.774184", 
+ "modified": "2017-04-20 14:23:27.710202", 
  "modified_by": "Administrator", 
  "module": "Stock", 
  "name": "Stock Delivery OrderItem", 
