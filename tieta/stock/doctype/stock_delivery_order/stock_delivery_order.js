@@ -25,6 +25,9 @@ frappe.ui.form.on('Stock Delivery Order', {
 	},
 	refresh: function(frm) {
 
+	},
+	order_source_type: function(frm) {
+		frm.set_value("order_source_id", null);
 	}
 });
 
