@@ -261,7 +261,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-04-21 13:10:36.096418", 
+ "modified": "2017-04-21 14:52:13.720736", 
  "modified_by": "Administrator", 
  "module": "Stock", 
  "name": "Stock Serial No", 
@@ -269,7 +269,7 @@
  "owner": "Administrator", 
  "permissions": [
   {
-   "amend": 1, 
+   "amend": 0, 
    "apply_user_permissions": 0, 
    "cancel": 1, 
    "create": 1, 
