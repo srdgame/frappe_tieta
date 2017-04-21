@@ -10,6 +10,7 @@ frappe.ui.form.on('Stock Entry', {
 				filters: {
 						"item_code": d.item_type,
 						"batch_no": d.batch_no,
+						"warehouse": "",
 						"docstatus": 1
 					}
 				};
@@ -17,6 +18,7 @@ frappe.ui.form.on('Stock Entry', {
 			return {
 				filters: {
 					"item_code": d.item_type,
+					"warehouse": "",
 					"docstatus": 1
 				}
 			};
