@@ -1,4 +1,4 @@
-apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +39,Add Device Items,增加设备列表
+apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +56,Add Device Items,增加设备列表
 DocType: Stock Warehouse,Address,地址
 DocType: Cell Station,Address Text,地址信息
 DocType: Stock Batch No,All,所有
@@ -13,11 +13,11 @@ DocType: Stock Delivery OrderItem,Batch No,批号
 DocType: Cell Station,Battery Setup Type,电池安装类型
 DocType: Stock Item,Brand,品牌
 DocType: Stock Entry,Buying,采购
+DocType: Cell Project Admin,Cell Project Admin,项目管理权限
+DocType: Cell Project AdminProject,Cell Project AdminProject,
 DocType: Cell Station,Cell Service List,基站服务列表
 DocType: Cell Service Type,Cell Service Type,基站服务类型
 DocType: Stock Item History,Cell Station,基站
-DocType: Cell Station Admin,Cell Station Admin,基站管理
-DocType: Cell Station AdminProject,Cell Station AdminProject,
 DocType: Cell Station Device Type,Cell Station Device Type,基站设备类型
 apps/tieta/tieta/hooks.py +59,Cell Station List,基站列表
 DocType: Cell Station Power Level,Cell Station Power Level,基站供电等级
@@ -30,17 +30,16 @@ DocType: Cell StationServiceType,Cell StationServiceType,
 DocType: Stock Delivery Order,Cloud Company,Cloud 公司
 DocType: Cell Station,Code,基站编码
 DocType: Stock Delivery Order,Company,公司
+DocType: Stock Order,Customer,客户
 DocType: Stock Item,Default Supplier,默认供应商
 DocType: Stock Item,Default Unit of Measure,默认计量单位
 DocType: Stock Item,Default Warehouse,默认仓库
 DocType: Stock Entry,Delivery Node No,出库单
 apps/tieta/tieta/stock/doctype/stock_delivery_order/stock_delivery_order.py +64,Delivery Order approved!,出库单已批准
-DocType: Cell Station Power Level,Desciption,
 DocType: Stock Batch No,Description,描述
-DocType: Cell Station,Descrition,
 DocType: Cell StationDevice,Device ID,设备ID
+DocType: Cell StationDevice,Device Item,
 DocType: Cell Station,Device List,设备列表
-DocType: Cell StationDevice,Device Name,设备名称
 DocType: Cell StationDevice,Device Type,设备类型
 DocType: Cell StationDevice,Device Type Value,设备类型值
 DocType: Cell Station,Devices,设备列表
@@ -54,6 +53,7 @@ DocType: Stock Item History,IN,
 DocType: Stock Item,ITEM-,项目-
 DocType: Stock Item,Image,企业Logo
 DocType: Stock Item History,InOut,
+DocType: Stock Order,Information,信息
 DocType: Stock Item,Inventory,库存
 DocType: Stock Delivery OrderItem,Item,产品
 DocType: Stock Batch No,Item Code,产品编号
@@ -70,7 +70,7 @@ DocType: Stock Entry,Manufacture,生产
 DocType: Cell Station,Map Settings,地图设定
 DocType: Stock Entry,Material Transfer,物料转移
 DocType: Stock Delivery OrderItem,Name,名称
-DocType: Stock Order,ORDER-,
+DocType: Stock Order,ORD-,
 DocType: Stock Item History,OUT,
 DocType: Stock Entry,Order ID,合同
 DocType: Stock Order,Order Name,合同名称
@@ -81,8 +81,8 @@ DocType: Stock Item History,Position,位置
 DocType: Stock Item History,Position Type,位置类型
 DocType: Stock Entry,Posting Time,发布时间
 DocType: Cell Station,Power Level,供电等级
-DocType: Cell Station,Project,项目
-DocType: Cell Station Admin,Projects,项目
+DocType: Cell Project AdminProject,Project,项目
+DocType: Cell Project Admin,Projects,项目
 DocType: Stock Entry,Purpose,目的
 DocType: Stock Delivery OrderItem,Qty,数量
 DocType: Cell Station,Region Settings,行政区设定
@@ -90,6 +90,7 @@ DocType: Stock Delivery OrderItem,Remark,备注
 DocType: Stock Delivery Order,SDO-,
 DocType: Stock Entry,STE-,STE-
 DocType: Stock Entry,Sales Return,销售退货
+DocType: Stock Order,Selling,销售
 DocType: Stock Item,Serial Attribute,序号属性
 apps/tieta/tieta/stock/doctype/stock_entry/stock_entry.py +48,Serial NO is not validate! {0},不合法的序号
 apps/tieta/tieta/stock/doctype/stock_delivery_order/stock_delivery_order.py +102,Serial NO {0} is in Warehouse {1},序号{0}在仓库{1}
@@ -133,14 +134,16 @@ DocType: Cell Station Settings,Symlink Device Type,SymLink设备类型
 DocType: Stock Item History,System Manager,系统管理员
 DocType: Stock Delivery Order,TKT-,
 DocType: Stock Delivery Order,Tickets Ticket,工单
-DocType: Cell Service Type,TieTa,
-DocType: Cell Service Type,TieTa Manager,TieTa 管理员
-DocType: Cell Station,TieTa User,TieTa 用户
+DocType: Cell Project Admin,TieTa,
+DocType: Cell Project Admin,TieTa Manager,TieTa 管理员
+DocType: Cell Project Admin,TieTa User,TieTa 用户
+DocType: Stock Order,Type,类型
 DocType: Cell Station Device Type,Type Doc,类型文档
+DocType: Cell Station Device Type,Type Item,
 DocType: Cell Station Device Type,Type Name,类型名称
 DocType: Stock Delivery OrderItem,UOM,计量单位
 DocType: Stock UOM,Unit Name,单位名称
-DocType: Cell Station Admin,User,用户
+DocType: Cell Project Admin,User,用户
 DocType: Stock Item AttributeValue,Value,值
 apps/tieta/tieta/stock/doctype/stock_delivery_order/stock_delivery_order.py +55,Ware house is required!!,未指定仓库
 DocType: Stock Delivery Order,Warehouse,仓库
