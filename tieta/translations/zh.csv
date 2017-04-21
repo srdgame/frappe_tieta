@@ -28,7 +28,7 @@ DocType: Cell Station Type,Cell Station Type,基站类型
 DocType: Cell StationDevice,Cell StationDevice,
 DocType: Cell StationServiceType,Cell StationServiceType,
 DocType: Stock Delivery Order,Cloud Company,Cloud 公司
-DocType: Cell Station,Code,绑定码
+DocType: Cell Station,Code,基站编码
 DocType: Stock Delivery Order,Company,公司
 DocType: Stock Item,Default Supplier,默认供应商
 DocType: Stock Item,Default Unit of Measure,默认计量单位
