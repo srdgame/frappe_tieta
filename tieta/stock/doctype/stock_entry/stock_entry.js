@@ -101,5 +101,11 @@ frappe.ui.form.on('Stock EntryItem', {
 				});
 			}
 		}
+	},
+	qty: function(doc, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		if (d.serial_no) {
+			frappe.model.set_value(cdt, cdn, "qty", 1);
+		}
 	}
 });

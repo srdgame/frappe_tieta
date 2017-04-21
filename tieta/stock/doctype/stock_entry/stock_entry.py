@@ -43,6 +43,7 @@ class StockEntry(Document):
 			item.item_name = frappe.get_value("Stock Item", item.item_type, "item_name")
 			if item.serial_no:
 				item.batch_no = frappe.get_value("Stock Serial No", item.serial_no, "batch_no")
+				item.qty = 1
 				doc = frappe.get_doc("Stock Serial No", item.serial_no)
 				if not doc:
 					throw(_("Serial NO is not validate! {0}").format(item.serial_no))
