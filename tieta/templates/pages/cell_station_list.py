@@ -13,7 +13,7 @@ def get_context(context):
 		raise frappe.Redirect
 
 	context.no_cache = 1
-	context.show_sidebar = True
+	context.show_sidebar = False
 
 	context.title = _("Cell Station List")
 	context.cell_list = search_station(**frappe.form_dict)

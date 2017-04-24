@@ -15,7 +15,7 @@ def get_context(context):
 	name = frappe.form_dict.name
 
 	context.no_cache = 1
-	context.show_sidebar = True
+	context.show_sidebar = False
 
 	context.title = _("Cell Station")
 	doc = frappe.get_doc("Cell Station", name)
