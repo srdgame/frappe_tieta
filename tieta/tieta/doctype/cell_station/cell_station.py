@@ -124,12 +124,17 @@ def list_station_map():
 	if 'TieTa User' not in user_roles:
 		raise frappe.PermissionError
 
-		return frappe.db.sql('''select distinct station.*
-			from `tabCell Station` station
+	projects = None
+	projects = [d[0] for d in frappe.db.get_values('Cloud Project', {"enabled": 1}, 'name')]
+
+	return frappe.db.sql('''select distinct station.*
+			from `tabCell Station` station, `tabRegion Address` region_address
 			where
+				station.name = region_address.parent
+				and station.project in {3}
 				order by station.{0}
 				limit {1}, {2}
-			'''.format("modified desc", 0, 10000),
+			'''.format("modified desc", 0, 10000, "('" + "','".join(projects) + "')"),
 						 {},
 						 as_dict=True,
 						 update={'doctype': 'Cell Station'})
