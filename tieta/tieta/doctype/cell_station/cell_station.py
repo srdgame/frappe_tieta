@@ -135,9 +135,9 @@ def list_station_map():
 			where
 				station.name = region_address.parent
 				and station.project in {3}
-				and station.station_name like %(txt)s order by station.{0}
+				order by station.{0}
 				limit {1}, {2}
 			'''.format("modified desc", 0, 10000, "('" + "','".join(projects) + "')"),
-						 {'txt': "%%%s%%" % txt},
+						 {},
 						 as_dict=True,
 						 update={'doctype': 'Cell Station'})
