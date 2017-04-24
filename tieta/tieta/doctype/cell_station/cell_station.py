@@ -120,4 +120,24 @@ def __search_station(*args, **kwargs):
 
 @frappe.whitelist()
 def list_station_map():
-	return search_station(start=0, page_length=10000)
+	user_roles = frappe.get_roles(frappe.session.user)
+	if 'TieTa User' not in user_roles:
+		raise frappe.PermissionError
+
+	projects = None
+	if frappe.session.user != 'Administrator':
+		projects = [d.project for d in frappe.get_doc('Cell Station Admin', frappe.session.user).projects]
+	else:
+		projects = [d[0] for d in frappe.db.get_values('Cloud Project', {"enabled": 1}, 'name')]
+
+	return frappe.db.sql('''select distinct station.*
+			from `tabCell Station` station, `tabRegion Address` region_address
+			where
+				station.name = region_address.parent
+				and station.project in {3}
+				and station.station_name like %(txt)s order by station.{0}
+				limit {1}, {2}
+			'''.format("modified desc", 0, 10000, "('" + "','".join(projects) + "')"),
+						 {'txt': "%%%s%%" % txt},
+						 as_dict=True,
+						 update={'doctype': 'Cell Station'})
