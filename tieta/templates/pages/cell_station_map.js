@@ -37,9 +37,9 @@ frappe.ready(function() {
 						var marker = new BMap.Marker(pt,{icon:myIcon});
 						var content = "<a href='/cell_stations/" + stations[cs].name + "'>" +
 							"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" +
-							stations[cs].station_name + "</h4></a>" +
+							stations[cs].station_name + "</h4>" +
 							"<p> 编号 : " + stations[cs].code + "</p>" +
-							"<p> 地址 : " + stations[cs].address_text + "</p>";
+							"<p> 地址 : " + stations[cs].address_text + "</p></a>";
 
 						addClickHandler(content, marker);
 						markers.push(marker);
