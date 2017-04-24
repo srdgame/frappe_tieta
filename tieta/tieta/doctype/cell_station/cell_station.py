@@ -125,9 +125,8 @@ def list_station_map():
 		raise frappe.PermissionError
 
 		return frappe.db.sql('''select distinct station.*
-			from `tabCell Station` station, `tabRegion Address` region_address
+			from `tabCell Station` station
 			where
-				station.name = region_address.parent
 				order by station.{0}
 				limit {1}, {2}
 			'''.format("modified desc", 0, 10000),
