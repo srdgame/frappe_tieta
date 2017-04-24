@@ -1,6 +1,6 @@
 frappe.ready(function() {
 	var map = new BMap.Map("baiduMap");
-	map.centerAndZoom("南京");
+	map.centerAndZoom(new BMap.Point(116.3252, 40.045103), 5);
 	map.enableScrollWheelZoom();
 
 	var opts = {
