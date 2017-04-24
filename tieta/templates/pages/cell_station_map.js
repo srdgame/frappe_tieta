@@ -33,7 +33,7 @@ frappe.ready(function() {
 					var stations = r.message;
 					for (var cs in stations) {
 						pt = new BMap.Point(stations[cs].longitude, stations[cs].latitude);
-						var myIcon = new BMap.Icon("/files/s.png", new BMap.Size(32,32));
+						var myIcon = new BMap.Icon("/files/cell_station_icon.png", new BMap.Size(32,32));
 						var marker = new BMap.Marker(pt,{icon:myIcon});
 						var content = "<a href='/cell_stations/" + stations[cs].name + "'>" +
 							"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" +
