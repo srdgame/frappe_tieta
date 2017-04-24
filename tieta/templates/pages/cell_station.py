@@ -20,7 +20,7 @@ def get_context(context):
 	context.title = _("Cell Station")
 	doc = frappe.get_doc("Cell Station", name)
 	symlink_type = frappe.db.get_single_value('Cell Station Settings', 'symlink_device_type')
-	'''
+
 	sn = None
 	for dev in doc.devices:
 		if dev.device_type == symlink_type:
@@ -28,8 +28,9 @@ def get_context(context):
 	if sn:
 		context.vsn = iot_device_tree(sn)
 		context.sn = sn
-		'''
+	'''
 	context.sn = '2-26003-161220-00002'
 	context.vsn = ['2-26003-161220-00002_C2_B2']
+	'''
 
 	context.doc = doc
