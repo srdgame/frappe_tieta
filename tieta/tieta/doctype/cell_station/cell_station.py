@@ -116,3 +116,8 @@ def search_station(txt="", rgn="RGN000001", rgn_type="province", start=0, page_l
 
 def __search_station(*args, **kwargs):
 	return __search_station(*args, **kwargs)
+
+
+@frappe.whitelist()
+def list_station_map():
+	return search_station(start=0, page_length=10000)

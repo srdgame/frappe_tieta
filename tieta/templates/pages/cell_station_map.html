@@ -1,0 +1,24 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block style %}
+    <style>
+        {% include "templates/includes/iot_device_map.css" %}
+    </style>
+{% endblock %}
+
+{% block script %}
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Uunwqg1begLNmZT29X128vIcnh0badER"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+{% endblock %}
+
+{% block content %}
+	<div class="baiduMap" id="baiduMap"></div>
+
+	<script>
+		{% include "templates/pages/cell_station_map.js" %}
+	</script>
+
+{% endblock %}
