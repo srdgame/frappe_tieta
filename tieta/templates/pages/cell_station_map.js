@@ -35,11 +35,11 @@ frappe.ready(function() {
 						pt = new BMap.Point(stations[cs].longitude, stations[cs].latitude);
 						var myIcon = new BMap.Icon("/files/access-point.png", new BMap.Size(32,32));
 						var marker = new BMap.Marker(pt,{icon:myIcon});
-						var content = "<a href='/iot_stations/" + stations[cs].sn + "'>" +
+						var content = "<a href='/cell_stations/" + stations[cs].name + "'>" +
 							"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>" +
-							stations[cs].cs_name + "</h4></a>" +
-							"<p> Status : " + stations[cs].csice_status + "</p>" +
-							"<p> Last Updated : " + stations[cs].last_updated + "</p>";
+							stations[cs].station_name + "</h4></a>" +
+							"<p> 编号 : " + stations[cs].code + "</p>" +
+							"<p> 地址 : " + stations[cs].address_text + "</p>";
 
 						addClickHandler(content, marker);
 						markers.push(marker);
