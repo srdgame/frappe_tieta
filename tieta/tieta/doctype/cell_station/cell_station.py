@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 
+
 class CellStation(Document):
 	def __get_uom(self, device_type):
 		item_code = frappe.get_value('Cell Station Device Type', device_type, 'type_item')
@@ -57,47 +58,27 @@ class CellStation(Document):
 			if d.name not in keep_list:
 				self.__out_station(d.device_type_value, d.device_id, d.device_type)
 
-	def after_insert(self):
-		data = {
-			"naming_series": "CELL-",
-			"project": self.project,
-			"site_name": self.station_name,
-			"longitude": self.longitude,
-			"latitude": self.latitude,
-		}
-		data.update({
-			"doctype": "Cloud Project Site"
-		})
-		doc = frappe.get_doc(data)
-		doc = doc.insert(ignore_permissions=True)
-		self.site = doc.name
-		self.save()
-
 	def on_trash(self):
-		if frappe.session.user != 'Administrator':
-			frappe.delete_doc("Cloud Project Site", self.site, ignore_permissions=True)
-
-	def on_update(self):
-		site = frappe.get_doc("Cloud Project Site", self.site)
-		site.set("project", self.project)
-		site.set("address", self.address_text)
-		site.set("site_name", self.station_name)
-		site.set("longitude", self.longitude)
-		site.set("latitude", self.latitude)
-		site.save(ignore_permissions=True)
+		for dev in self.devices:
+			self.__out_station(dev.device_type_value, dev.device_id, dev.device_type)
 
 
 @frappe.whitelist()
-def search_station(txt="", rgn="RGN000001", rgn_type="province", start=0, page_length=20, order_by="modified desc"):
+def search_station(txt="", rgn=None, rgn_type=None, start=0, page_length=20, order_by="modified desc"):
 	user_roles = frappe.get_roles(frappe.session.user)
 	if 'TieTa User' not in user_roles:
 		raise frappe.PermissionError
 
-	projects = None
-	if frappe.session.user != 'Administrator':
-		projects = [d.project for d in frappe.get_doc('Cell Station Admin', frappe.session.user).projects]
-	else:
-		projects = [d[0] for d in frappe.db.get_values('Cloud Project', {"enabled":1}, 'name')]
+	from cloud.cloud.doctype.cloud_project.cloud_project import list_user_projects
+	projects = list_user_projects(frappe.session.user)
+	if not rgn:
+		return frappe.db.sql('''select * from `tabCell Station` station
+			where station.project in {3}
+			order by station.{0} limit {1}, {2}
+			'''.format(order_by, start, page_length, "('" + "','".join(projects) + "')"),
+				{},
+				as_dict=True,
+				update={'doctype': 'Cell Station'})
 
 	rgn_key = 'region_address.' + rgn_type
 
@@ -114,27 +95,6 @@ def search_station(txt="", rgn="RGN000001", rgn_type="province", start=0, page_l
 			update={'doctype' : 'Cell Station'})
 
 
-def __search_station(*args, **kwargs):
-	return __search_station(*args, **kwargs)
-
-
 @frappe.whitelist()
 def list_station_map():
-	user_roles = frappe.get_roles(frappe.session.user)
-	if 'TieTa User' not in user_roles:
-		raise frappe.PermissionError
-
-	projects = None
-	projects = [d[0] for d in frappe.db.get_values('Cloud Project', {"enabled": 1}, 'name')]
-
-	return frappe.db.sql('''select distinct station.*
-			from `tabCell Station` station, `tabRegion Address` region_address
-			where
-				station.name = region_address.parent
-				and station.project in {3}
-				order by station.{0}
-				limit {1}, {2}
-			'''.format("modified desc", 0, 10000, "('" + "','".join(projects) + "')"),
-						 {},
-						 as_dict=True,
-						 update={'doctype': 'Cell Station'})
+	return search_station(start=0, page_length=10000)
