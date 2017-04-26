@@ -64,7 +64,7 @@ class CellStation(Document):
 
 
 @frappe.whitelist()
-def search_station(txt="", rgn=None, rgn_type=None, start=0, page_length=20, order_by="modified desc"):
+def search_station(txt="", rgn=None, rgn_type="province", start=0, page_length=20, order_by="modified desc"):
 	user_roles = frappe.get_roles(frappe.session.user)
 	if 'TieTa User' not in user_roles:
 		raise frappe.PermissionError
