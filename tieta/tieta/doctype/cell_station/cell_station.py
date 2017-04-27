@@ -39,6 +39,9 @@ class CellStation(Document):
 		}).insert()
 
 	def before_save(self):
+		if self.is_new():
+			return
+
 		names = frappe.get_list("Cell StationDevice",
 								filters={"parent": self.name},
 								fields=["name", "device_id", "device_type_value", "device_type"])
@@ -57,6 +60,10 @@ class CellStation(Document):
 								fields=["name", "device_id", "device_type_value", "device_type"]):
 			if d.name not in keep_list:
 				self.__out_station(d.device_type_value, d.device_id, d.device_type)
+
+	def after_insert(self):
+		for dev in self.devices:
+			self.__in_station(dev.device_type_value, dev.device_id, dev.device_type)
 
 	def on_trash(self):
 		for dev in self.devices:
