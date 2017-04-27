@@ -80,7 +80,7 @@ def search_station(txt="", rgn=None, rgn_type="province", start=0, page_length=2
 	projects = list_user_projects(frappe.session.user)
 	if not rgn:
 		return frappe.db.sql('''select * from `tabCell Station` station
-			where station.project in {3}
+			where station.enabled = 1 and station.project in {3}
 			order by station.{0} limit {1}, {2}
 			'''.format(order_by, start, page_length, "('" + "','".join(projects) + "')"),
 				{},
@@ -91,7 +91,7 @@ def search_station(txt="", rgn=None, rgn_type="province", start=0, page_length=2
 
 	return frappe.db.sql('''select distinct station.*
 		from `tabCell Station` station, `tabRegion Address` region_address
-		where
+		where station.enabled = 1
 			station.name = region_address.parent
 			and {3} = %(rgn)s and station.project in {4}
 			and station.station_name like %(txt)s order by station.{0}
