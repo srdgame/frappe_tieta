@@ -26,8 +26,8 @@ DocType: Cell Station Setup Type,Cell Station Setup Type,基站安装方案
 DocType: Cell Station Type,Cell Station Type,基站类型
 DocType: Cell StationDevice,Cell StationDevice,
 DocType: Cell StationServiceType,Cell StationServiceType,
-apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +54,Clean Device History,
-apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +56,"Clean Device History will break item trace, Are you sure to delete them?",
+apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +54,Clean Device History,清理设备跟踪历史
+apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +56,"Clean Device History will break item trace, Are you sure to delete them?",清理设备跟踪历史会破坏产品跟踪记录，确定要进行清理？
 DocType: Stock Delivery Order,Cloud Company,Cloud 公司
 DocType: Cell Station,Code,基站编码
 DocType: Stock Delivery Order,Company,公司
@@ -39,7 +39,7 @@ DocType: Stock Entry,Delivery Node No,出库单
 apps/tieta/tieta/stock/doctype/stock_delivery_order/stock_delivery_order.py +64,Delivery Order approved!,出库单已批准
 DocType: Stock Batch No,Description,描述
 DocType: Cell StationDevice,Device ID,设备ID
-DocType: Cell StationDevice,Device Item,
+DocType: Cell StationDevice,Device Item,产品
 DocType: Cell Station,Device List,设备列表
 DocType: Cell StationDevice,Device Type,设备类型
 DocType: Cell StationDevice,Device Type Value,设备类型值
@@ -151,4 +151,4 @@ DocType: Stock Item,Weight,重量
 DocType: Stock Item,Weight UOM,重量计量单位
 DocType: Cell Station,Work Current,工作电流
 DocType: Cell Station,Work Current UOM,工作电流单位
-apps/tieta/tieta/tieta/doctype/cell_station/cell_station.py +75,"You are not Administrator, so cannot clear device history of cell station",
+apps/tieta/tieta/tieta/doctype/cell_station/cell_station.py +75,"You are not Administrator, so cannot clear device history of cell station",只有超级管理员账户才可以清理设备跟踪历史
