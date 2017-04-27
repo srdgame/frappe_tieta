@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import throw, _
 from frappe.model.document import Document
 
 
@@ -68,6 +69,13 @@ class CellStation(Document):
 	def on_trash(self):
 		for dev in self.devices:
 			self.__out_station(dev.device_type_value, dev.device_id, dev.device_type)
+
+	def clear_device_history(self):
+		if 'Administrator' != frappe.session.user:
+			throw(_("You are not Administrator, so cannot clear device history of cell station"))
+		hlist = [d[0] for d in frappe.db.get_values("Stock Item History", {"position": self.name}, "name")]
+		for h in hlist:
+			frappe.delete_doc("Stock Item History", h)
 
 
 @frappe.whitelist()

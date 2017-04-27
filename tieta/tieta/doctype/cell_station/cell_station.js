@@ -50,6 +50,28 @@ frappe.ui.form.on('Cell Station', {
 		};
 	},
 	refresh: function (frm) {
+		if (user==="Administrator") {
+			frm.add_custom_button(__("Clean Device History"), function () {
+				frappe.confirm(
+					__('Clean Device History will break item trace, Are you sure to delete them?'),
+					function(){
+						return frappe.call({
+							doc: frm.doc,
+							method: "clear_device_history",
+							freeze: true,
+							callback: function(r) {
+								if(r.exc) {
+									if(r._server_messages)
+										frappe.msgprint(r._server_messages);
+								} else {
+									frappe.msgprint(r.message);
+								}
+							}
+						})
+					}
+				)
+			}).removeClass("btn-default").addClass("btn-warning");
+		}
 	},
 	onload_post_render: function(frm) {
 		var grid = frm.fields_dict["devices"].grid;
