@@ -1,4 +1,4 @@
-apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +56,Add Device Items,增加设备列表
+apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +78,Add Device Items,增加设备列表
 DocType: Stock Warehouse,Address,地址
 DocType: Cell Station,Address Text,地址信息
 DocType: Stock Batch No,All,所有
@@ -26,6 +26,8 @@ DocType: Cell Station Setup Type,Cell Station Setup Type,基站安装方案
 DocType: Cell Station Type,Cell Station Type,基站类型
 DocType: Cell StationDevice,Cell StationDevice,
 DocType: Cell StationServiceType,Cell StationServiceType,
+apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +54,Clean Device History,
+apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +56,"Clean Device History will break item trace, Are you sure to delete them?",
 DocType: Stock Delivery Order,Cloud Company,Cloud 公司
 DocType: Cell Station,Code,基站编码
 DocType: Stock Delivery Order,Company,公司
@@ -149,3 +151,4 @@ DocType: Stock Item,Weight,重量
 DocType: Stock Item,Weight UOM,重量计量单位
 DocType: Cell Station,Work Current,工作电流
 DocType: Cell Station,Work Current UOM,工作电流单位
+apps/tieta/tieta/tieta/doctype/cell_station/cell_station.py +75,"You are not Administrator, so cannot clear device history of cell station",
