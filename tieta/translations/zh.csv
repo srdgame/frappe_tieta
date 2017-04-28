@@ -18,7 +18,7 @@ DocType: Cell Service Type,Cell Service Type,基站服务类型
 DocType: Stock Item History,Cell Station,基站
 DocType: Cell Station Device Type,Cell Station Device Type,基站设备类型
 apps/tieta/tieta/hooks.py +59,Cell Station List,基站列表
-apps/tieta/tieta/templates/pages/cell_station_map.py +18,Cell Station Map,
+apps/tieta/tieta/templates/pages/cell_station_map.py +19,Cell Station Map,基站地图
 DocType: Cell Station Power Level,Cell Station Power Level,基站供电等级
 DocType: Cell Station Power Setup Type,Cell Station Power Setup Type,基站供电安装方案
 DocType: Cell Station Settings,Cell Station Settings,基站设定
@@ -31,6 +31,7 @@ apps/tieta/tieta/tieta/doctype/cell_station/cell_station.js +56,"Clean Device Hi
 DocType: Stock Delivery Order,Cloud Company,Cloud 公司
 DocType: Cell Station,Code,基站编码
 DocType: Stock Delivery Order,Company,公司
+DocType: Stock Warehouse,Contact,联系信息
 DocType: Stock Order,Customer,客户
 DocType: Stock Item,Default Supplier,默认供应商
 DocType: Stock Item,Default Unit of Measure,默认计量单位
