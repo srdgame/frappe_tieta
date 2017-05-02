@@ -102,8 +102,7 @@ frappe.ui.form.on('Cell Station', {
 				}
 			});
 		});
-		grid.custom_buttons[__('Add Device Items')].removeClass("btn-default");
-		grid.custom_buttons[__('Add Device Items')].addClass("btn-warning");
+		grid.custom_buttons[__('Add Device Items')].removeClass("btn-default").addClass("btn-warning");
 	},
 	update_address: function(frm, row) {
 		frappe.call({
