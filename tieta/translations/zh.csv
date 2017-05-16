@@ -105,7 +105,6 @@ DocType: Cell StationServiceType,Service Type,服务类型
 DocType: Cell Station Power Setup Type,Setup Name,名称
 DocType: Cell Station,Setup Time,安装时间
 DocType: Cell Station,Setup Type,安装类型
-DocType: Cell Station,Site,现场
 DocType: Stock Entry,Source Warehouse,源仓库
 apps/tieta/tieta/stock/doctype/stock_entry/stock_entry.py +40,Source Warehouse is required,未设定源仓库
 DocType: Cell Station,Station Name,基站名称
