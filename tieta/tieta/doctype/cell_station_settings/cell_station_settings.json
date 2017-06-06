@@ -13,6 +13,7 @@
  "engine": "InnoDB", 
  "fields": [
   {
+   "allow_bulk_edit": 0, 
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -53,7 +54,7 @@
  "issingle": 1, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2017-04-21 10:51:17.226413", 
+ "modified": "2017-06-06 15:38:55.168616", 
  "modified_by": "Administrator", 
  "module": "TieTa", 
  "name": "Cell Station Settings", 
@@ -94,7 +95,7 @@
    "print": 1, 
    "read": 1, 
    "report": 0, 
-   "role": "All", 
+   "role": "TieTa User", 
    "set_user_permissions": 0, 
    "share": 1, 
    "submit": 0, 
