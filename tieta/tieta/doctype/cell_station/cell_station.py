@@ -115,8 +115,8 @@ def list_station_map():
 	return search_station(start=0, page_length=10000)
 
 @frappe.whitelist()
-def list_station_info():
-	_stations = search_station(start=0, page_length=10000)
+def list_station_info(rgn=None, rgn_type="province"):
+	_stations = search_station(rgn=rgn, rgn_type=rgn_type, start=0, page_length=10000)
 	new_stations = []
 	for d in _stations:
 		doc = frappe.get_doc("Cell Station", d.name)
@@ -128,11 +128,12 @@ def list_station_info():
 				sn = dev.device_id
 				try:
 					symlink_status = frappe.get_doc("IOT Device", sn).device_status
+					d.status = symlink_status
 				except Exception, e:
 					frappe.logger(__name__).error(e)
 					traceback.print_exc()
 				finally:
 					frappe.logger(__name__).error(_("Device {0} does not exits!").format(sn))
-				new_stations.append(symlink_status)
+				new_stations.append(d)
 		pass
 	return new_stations
