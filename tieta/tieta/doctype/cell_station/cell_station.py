@@ -113,3 +113,20 @@ def search_station(txt="", rgn=None, rgn_type="province", start=0, page_length=2
 @frappe.whitelist()
 def list_station_map():
 	return search_station(start=0, page_length=10000)
+
+@frappe.whitelist()
+def list_station_info(rgn, rgn_type):
+	_stations = search_station(rgn=rgn, rgn_type=rgn_type, start=0, page_length=10000)
+	new_stations = []
+	for d in _stations:
+		doc = frappe.get_doc("Cell Station", d.name)
+		symlink_type = frappe.db.get_single_value('Cell Station Settings', 'symlink_device_type')
+		sn = None
+		symlink_status = None
+		for dev in doc.devices:
+			if dev.device_type == symlink_type:
+				sn = dev.device_id
+				symlink_status = frappe.db.get_single_value('IOT Device', sn).device_status
+				new_stations.append(symlink_status)
+		pass
+	return new_stations
