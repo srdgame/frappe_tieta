@@ -122,18 +122,19 @@ def list_station_info(rgn=None, rgn_type="province"):
 		doc = frappe.get_doc("Cell Station", d.name)
 		symlink_type = frappe.db.get_single_value('Cell Station Settings', 'symlink_device_type')
 		sn = None
-		symlink_status = None
+		symlink_status = 'UNKNOWN'
 		for dev in doc.devices:
 			if dev.device_type == symlink_type:
 				sn = dev.device_id
 				try:
 					symlink_status = frappe.get_doc("IOT Device", sn).device_status
-					d.status = symlink_status
+					break
 				except Exception, e:
 					frappe.logger(__name__).error(e)
 					traceback.print_exc()
 				finally:
 					frappe.logger(__name__).error(_("Device {0} does not exits!").format(sn))
-				new_stations.append(d)
+		d.status = symlink_status
+		new_stations.append(d)
 		pass
 	return new_stations
