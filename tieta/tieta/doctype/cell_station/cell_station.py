@@ -126,7 +126,13 @@ def list_station_info():
 		for dev in doc.devices:
 			if dev.device_type == symlink_type:
 				sn = dev.device_id
-				symlink_status = frappe.db.get_single_value('IOT Device', sn).device_status
+				try:
+					symlink_status = frappe.get_doc("IOT Device", sn).device_status
+				except Exception, e:
+					frappe.logger(__name__).error(e)
+					traceback.print_exc()
+				finally:
+					frappe.logger(__name__).error(_("Device {0} does not exits!").format(sn))
 				new_stations.append(symlink_status)
 		pass
 	return new_stations
