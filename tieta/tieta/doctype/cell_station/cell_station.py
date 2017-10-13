@@ -115,8 +115,8 @@ def list_station_map():
 	return search_station(start=0, page_length=10000)
 
 @frappe.whitelist()
-def list_station_info(rgn=None, rgn_type="province", code=None, station_name=None, symlink_sn=None, status=None, page_length=10000):
-	_stations = search_station(rgn=rgn, rgn_type=rgn_type, start=0, page_length=page_length)
+def list_station_info(rgn=None, rgn_type="province", code=None, station_name=None, symlink_sn=None, status=None, start=0, page_length=10000):
+	_stations = search_station(rgn=rgn, rgn_type=rgn_type, start=start, page_length=page_length)
 	new_stations = []
 	for d in _stations:
 		doc = frappe.get_doc("Cell Station", d.name)
