@@ -121,34 +121,38 @@ def list_station_info(rgn=None, rgn_type="province", code=None, station_name=Non
 	for d in _stations:
 		doc = frappe.get_doc("Cell Station", d.name)
 		symlink_type = frappe.db.get_single_value('Cell Station Settings', 'symlink_device_type')
-		symlink_status = 'UNKNOWN'
-		symLinksn = 'UNKNOWN'
+		symlink_status = None
+		symLinksn = None
 		for dev in doc.devices:
 			if dev.device_type == symlink_type:
 				symLinksn = dev.device_id
-				try:
-					symlink_status = frappe.get_doc("IOT Device", symLinksn).device_status
-					break
-				except Exception, e:
-					frappe.logger(__name__).error(e)
-					traceback.print_exc()
-				finally:
-					frappe.logger(__name__).error(_("Device {0} does not exits!").format(symLinksn))
+				if symLinksn:
+					try:
+						symlink_status = frappe.get_doc("IOT Device", symLinksn).device_status
+						break
+					except Exception, e:
+						frappe.logger(__name__).error(e)
+						traceback.print_exc()
+					finally:
+						frappe.logger(__name__).error(_("Device {0} does not exits!").format(symLinksn))
+				else:
+					symlink_status = 'UNKNOWN'
+					symLinksn = 'UNKNOWN'
 		d.status = symlink_status
 		d.symlink_sn = symLinksn
 		_filter = {}
 		if code:
-			_filter["code"] = code.upper()
+			_filter["code"] = code
 		if station_name:
 			_filter["station_name"] = station_name
 		if symlink_sn:
 			_filter["symlink_sn"] = symlink_sn
 		if status:
-			_filter["status"] = status.upper()
+			_filter["status"] = status
 		if _filter:
 			mz = True
 			for (k, v) in _filter.items():
-				if v in getattr(d, k):
+				if v.upper() in getattr(d, k).upper():
 					continue
 				else:
 					mz = False
