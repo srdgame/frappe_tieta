@@ -138,13 +138,13 @@ def list_station_info(rgn=None, rgn_type="province", code=None, station_name=Non
 		d.symlink_sn = symLinksn
 		_filter = {}
 		if code:
-			_filter["code"] = code
+			_filter["code"] = code.upper()
 		if station_name:
 			_filter["station_name"] = station_name
 		if symlink_sn:
 			_filter["symlink_sn"] = symlink_sn
 		if status:
-			_filter["status"] = status
+			_filter["status"] = status.upper()
 		if _filter:
 			mz = True
 			for (k, v) in _filter.items():
