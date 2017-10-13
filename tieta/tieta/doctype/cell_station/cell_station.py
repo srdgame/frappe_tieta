@@ -129,7 +129,10 @@ def list_station_info(rgn=None, rgn_type="province", code=None, station_name=Non
 				symLinksn = dev.device_id
 				if symLinksn:
 					try:
-						symlink_status = frappe.get_doc("IOT Device", symLinksn).device_status
+						doc = frappe.get_doc("IOT Device", symLinksn)
+						if doc is None:
+							continue
+						symlink_status = doc.device_status
 						break
 					except Exception, e:
 						frappe.logger(__name__).error(e)
