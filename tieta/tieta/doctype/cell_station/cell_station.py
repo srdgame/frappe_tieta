@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+import traceback
 from frappe import throw, _
 from frappe.model.document import Document
 
