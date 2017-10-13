@@ -115,26 +115,47 @@ def list_station_map():
 	return search_station(start=0, page_length=10000)
 
 @frappe.whitelist()
-def list_station_info(rgn=None, rgn_type="province"):
+def list_station_info(rgn=None, rgn_type="province", code=None, station_name=None, symlink_sn=None, status=None):
 	_stations = search_station(rgn=rgn, rgn_type=rgn_type, start=0, page_length=10000)
 	new_stations = []
 	for d in _stations:
 		doc = frappe.get_doc("Cell Station", d.name)
 		symlink_type = frappe.db.get_single_value('Cell Station Settings', 'symlink_device_type')
-		sn = None
 		symlink_status = 'UNKNOWN'
+		symLinksn = 'UNKNOWN'
 		for dev in doc.devices:
 			if dev.device_type == symlink_type:
-				sn = dev.device_id
+				symLinksn = dev.device_id
 				try:
-					symlink_status = frappe.get_doc("IOT Device", sn).device_status
+					symlink_status = frappe.get_doc("IOT Device", symLinksn).device_status
 					break
 				except Exception, e:
 					frappe.logger(__name__).error(e)
 					traceback.print_exc()
 				finally:
-					frappe.logger(__name__).error(_("Device {0} does not exits!").format(sn))
+					frappe.logger(__name__).error(_("Device {0} does not exits!").format(symLinksn))
 		d.status = symlink_status
-		new_stations.append(d)
-		pass
+		d.symlink_sn = symLinksn
+		_filter = {}
+		if code:
+			_filter["code"] = code
+		if station_name:
+			_filter["station_name"] = station_name
+		if symlink_sn:
+			_filter["symlink_sn"] = symlink_sn
+		if status:
+			_filter["status"] = status
+		if _filter:
+			mz = True
+			for (k, v) in _filter.items():
+				if v in getattr(d, k):
+					continue
+				else:
+					mz = False
+					break
+			if mz:
+				new_stations.append(d)
+		else:
+			new_stations.append(d)
+
 	return new_stations
