@@ -4,7 +4,6 @@
 
 from __future__ import unicode_literals
 import frappe
-import traceback
 from frappe import throw, _
 from frappe.model.document import Document
 
@@ -130,13 +129,10 @@ def list_station_info(rgn=None, rgn_type="province", code=None, station_name=Non
 				if symLinksn:
 					try:
 						doc = frappe.get_doc("IOT Device", symLinksn)
-						if doc is None:
-							continue
 						symlink_status = doc.device_status
 						break
 					except Exception, e:
 						frappe.logger(__name__).error(e)
-						traceback.print_exc()
 					finally:
 						frappe.logger(__name__).error(_("Device {0} does not exits!").format(symLinksn))
 				else:
