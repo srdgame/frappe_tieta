@@ -14,51 +14,35 @@ class CellStation(Document):
 		return frappe.get_value("Stock Item", item_code, "stock_uom")
 
 	def __in_station(self, device_type, device_id, device_type_name):
-		doc = frappe.get_doc({
-			"doctype": "Stock Item History",
-			"inout": 'IN',
-			"item_type": device_type,
-			"item": device_id,
-			"position_type": "Cell Station",
-			"position": self.name,
-			"qty": 1,
-			"uom": self.__get_uom(device_type_name),
-			"remark": device_type_name
-		}).insert()
+		doc = frappe.get_doc(
+			{"doctype": "Stock Item History", "inout": 'IN', "item_type": device_type, "item": device_id,
+				"position_type": "Cell Station", "position": self.name, "qty": 1,
+				"uom": self.__get_uom(device_type_name), "remark": device_type_name}).insert()
 
 	def __out_station(self, device_type, device_id, device_type_name):
-		doc = frappe.get_doc({
-			"doctype": "Stock Item History",
-			"inout": 'OUT',
-			"item_type": device_type,
-			"item": device_id,
-			"position_type": "Cell Station",
-			"position": self.name,
-			"qty": 1,
-			"uom": self.__get_uom(device_type_name),
-			"remark": device_type_name
-		}).insert()
+		doc = frappe.get_doc(
+			{"doctype": "Stock Item History", "inout": 'OUT', "item_type": device_type, "item": device_id,
+				"position_type": "Cell Station", "position": self.name, "qty": 1,
+				"uom": self.__get_uom(device_type_name), "remark": device_type_name}).insert()
 
 	def before_save(self):
 		if self.is_new():
 			return
 
-		names = frappe.get_list("Cell StationDevice",
-								filters={"parent": self.name},
-								fields=["name", "device_id", "device_type_value", "device_type"])
+		names = frappe.get_list("Cell StationDevice", filters={"parent": self.name},
+		                        fields=["name", "device_id", "device_type_value", "device_type"])
 		devices = [d[0] for d in frappe.db.get_values("Cell StationDevice", {"parent": self.name}, "device_id")]
 		keep_list = []
 		for dev in self.devices:
-			name = frappe.db.get_value("Cell StationDevice",
-						{"parent": self.name, "device_id": dev.device_id, "device_type": dev.device_type})
+			name = frappe.db.get_value("Cell StationDevice", {"parent": self.name, "device_id": dev.device_id,
+			                                                  "device_type": dev.device_type})
 			if not name:
 				self.__in_station(dev.device_type_value, dev.device_id, dev.device_type)
 			else:
 				keep_list.append(name)
 
-		for d in frappe.get_list("Cell StationDevice",
-								filters={"parent": self.name},
-								fields=["name", "device_id", "device_type_value", "device_type"]):
+		for d in frappe.get_list("Cell StationDevice", filters={"parent": self.name},
+		                         fields=["name", "device_id", "device_type_value", "device_type"]):
 			if d.name not in keep_list:
 				self.__out_station(d.device_type_value, d.device_id, d.device_type)
 
@@ -90,10 +74,8 @@ def search_station(txt="", rgn=None, rgn_type="province", start=0, page_length=2
 		return frappe.db.sql('''select * from `tabCell Station` station
 			where station.enabled = 1 and station.project in {3}
 			order by station.{0} limit {1}, {2}
-			'''.format(order_by, start, page_length, "('" + "','".join(projects) + "')"),
-				{},
-				as_dict=True,
-				update={'doctype': 'Cell Station'})
+			'''.format(order_by, start, page_length, "('" + "','".join(projects) + "')"), {}, as_dict=True,
+		                     update={'doctype': 'Cell Station'})
 
 	rgn_key = 'region_address.' + rgn_type
 
@@ -104,18 +86,18 @@ def search_station(txt="", rgn=None, rgn_type="province", start=0, page_length=2
 			and {3} = %(rgn)s and station.project in {4}
 			and station.station_name like %(txt)s order by station.{0}
 			limit {1}, {2}
-		'''.format(order_by, start, page_length, rgn_key, "('"+"','".join(projects)+"')"),
-			{'rgn' : rgn, 'txt' : "%%%s%%" % txt},
-			as_dict=True,
-			update={'doctype' : 'Cell Station'})
+		'''.format(order_by, start, page_length, rgn_key, "('" + "','".join(projects) + "')"),
+	                     {'rgn': rgn, 'txt': "%%%s%%" % txt}, as_dict=True, update={'doctype': 'Cell Station'})
 
 
 @frappe.whitelist()
 def list_station_map():
 	return search_station(start=0, page_length=10000)
 
+
 @frappe.whitelist()
-def list_station_info(rgn=None, rgn_type="province", code=None, station_name=None, symlink_sn=None, status=None, start=0, page_length=10000):
+def list_station_info(rgn=None, rgn_type="province", code=None, station_name=None, symlink_sn=None, status=None,
+                      start=0, page_length=10000):
 	_stations = search_station(rgn=rgn, rgn_type=rgn_type, start=start, page_length=page_length)
 	new_stations = []
 	for d in _stations:
@@ -152,8 +134,15 @@ def list_station_info(rgn=None, rgn_type="province", code=None, station_name=Non
 		if _filter:
 			mz = True
 			for (k, v) in _filter.items():
-				if v.upper() in getattr(d, k).upper():
-					continue
+				try:
+					var = getattr(d, k)
+					if v.upper() in var.upper():
+						continue
+					else:
+						mz = False
+						break
+				except Exception as e:
+					print(e)
 				else:
 					mz = False
 					break
